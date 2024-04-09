@@ -202,7 +202,7 @@ namespace FinalProject
                 FinishAffinity();
 
                 // Notify the client.
-                Toast.MakeText(this, $"Auction {auction.ItemName} is no longer running", ToastLength.Long).Show();
+                Toast.MakeText(this, $"Auction {auction.ItemName} is no longer running.", ToastLength.Long).Show();
                 return;
             }
 
@@ -215,7 +215,7 @@ namespace FinalProject
             FinishAffinity();
 
             // Notify the client.
-            Toast.MakeText(this, $"Auction {auction.ItemName} has been successfully canceled", ToastLength.Long).Show();
+            Toast.MakeText(this, $"Auction {auction.ItemName} has been successfully canceled.", ToastLength.Long).Show();
         }
 
         private void Images_gallery_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
