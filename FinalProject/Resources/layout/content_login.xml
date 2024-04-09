@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="32dp">
+    
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="64dp"/>
+
+    <EditText
+        android:id="@+id/editTextPhoneNumber"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Phone Number"
+        android:textSize="25sp"
+        android:inputType="number"
+        android:maxLength="10"
+        android:layout_below="@+id/textViewTitle"
+        android:layout_centerInParent="true"/>
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Password"
+        android:textSize="25sp"
+        android:inputType="textPassword"
+        android:layout_below="@+id/editTextPhoneNumber"
+        android:layout_alignStart="@+id/editTextPhoneNumber"/>
+
+    <ToggleButton
+        android:id="@+id/toggleButtonHidePassword"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@+id/editTextPassWord"
+        android:layout_alignBaseline="@+id/editTextPassword"
+        android:background="@drawable/design_password_eye"
+        android:textOff=""
+        android:textOn=""
+        android:text=""
+        android:layout_marginLeft="20dp"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxRememberMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remember me"
+        android:textSize="20sp"
+        android:layout_below="@+id/editTextPassword"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"/>
+
+    <Button
+        android:id="@+id/buttonLogIn"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Login"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/passive_button"
+        android:enabled="false"
+        android:layout_below="@+id/checkBoxRememberMe"
+        android:layout_alignStart="@+id/editTextPassword"
+        android:layout_centerInParent="true"/>
+    
+    <TextView
+        android:id="@+id/textViewRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Haven't registered yet?"
+        android:textColor="#8bb1bd"
+        android:textSize="20sp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/buttonLogIn"
+        android:gravity="center"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/textViewForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I forgot my password"
+        android:textColor="#8bb1bd"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="30dp"/>
+
+</RelativeLayout>

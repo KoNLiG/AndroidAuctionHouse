@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#424242">
+	
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="850px"
+        android:layout_height="wrap_content"
+        android:text="Add/remove any external images here!\nClick on an image to remove it."
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="#8bb1bd"
+        android:layout_marginBottom="48dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/textViewTitle"
+        android:paddingBottom="32dp">
+         
+        <Button
+            android:id="@+id/takeButton"
+            android:text="  Take a photo  "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/active_button"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginHorizontal="16dp"/>
+
+        <Button
+            android:id="@+id/selectButton"
+            android:text="  Select a photo  "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/active_button"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginHorizontal="16dp"/>
+
+    </LinearLayout>
+
+    <Gallery
+        android:id="@+id/imagesGallery"
+        android:layout_below="@+id/buttonsLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"/>
+
+</RelativeLayout>

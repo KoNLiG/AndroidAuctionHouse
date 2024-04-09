@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#424242">
+
+   <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="850px"
+        android:layout_height="wrap_content"
+        android:text="At these moments we will send you a one-time 6-digit code to the number "
+        android:textSize="15sp"
+        android:textColor="#8bb1bd"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginBottom="35dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@id/textViewTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp">
+
+        <EditText
+            android:id="@+id/codeField1"
+            android:layout_width="125px"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:focusableInTouchMode="false"/>
+
+        <EditText
+            android:id="@+id/codeField2"
+            android:layout_width="125px" 
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:focusableInTouchMode="false"/>
+
+        <EditText
+            android:id="@+id/codeField3"
+            android:layout_width="125px"
+            android:layout_height="wrap_content" 
+            android:inputType="number"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:focusableInTouchMode="false"/>
+
+        <EditText
+            android:id="@+id/codeField4"  
+            android:layout_width="125px"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:focusableInTouchMode="false"/>
+    
+        <EditText
+            android:id="@+id/codeField5"
+            android:layout_width="125px"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:focusableInTouchMode="false"/>
+
+        <EditText
+            android:id="@+id/codeField6" 
+            android:layout_width="125px"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:focusableInTouchMode="false"
+            android:maxLength="1"/>
+
+    </LinearLayout>
+</RelativeLayout>

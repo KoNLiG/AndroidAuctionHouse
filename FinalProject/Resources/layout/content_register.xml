@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainLayout"
+    android:paddingTop="32dp">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginBottom="85dp"
+        android:layout_marginTop="64dp"/>
+
+    <EditText
+        android:id="@+id/phoneField"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:hint="Phone number"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:layout_below="@+id/textViewTitle"
+        android:layout_centerInParent="true"/>
+
+    <EditText
+        android:id="@+id/firstNameField"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="First name"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:layout_below="@+id/phoneField"
+        android:layout_alignStart="@+id/phoneField"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/lastNameField"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Last name"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:layout_below="@+id/firstNameField"
+        android:layout_alignStart="@+id/firstNameField"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:layout_below="@+id/lastNameField"
+        android:layout_alignStart="@+id/lastNameField"
+        android:password="true"
+        android:layout_marginTop="20dp"/>
+
+    <ToggleButton
+        android:id="@+id/toggleButtonHidePassword"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@+id/passwordField"
+        android:layout_alignBaseline="@+id/passwordField"
+        android:background="@drawable/design_password_eye"
+        android:textOff=""
+        android:textOn=""
+        android:text=""
+        android:layout_marginRight="10dp"/>
+
+    <EditText
+        android:id="@+id/confirmPasswordField"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="Confirm password"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:layout_below="@+id/passwordField"
+        android:layout_alignStart="@+id/passwordField"
+        android:password="true"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:text="Register"
+        android:textColor="#6f7d86"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/passive_button"
+        android:textSize="25sp"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/confirmPasswordField"
+        android:layout_marginTop="100dp"/>
+</RelativeLayout>

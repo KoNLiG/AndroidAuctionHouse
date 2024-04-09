@@ -1,0 +1,141 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainLayout"
+    android:paddingTop="32dp">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Overview"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="64dp"/>
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_below="@+id/textViewTitle"/>
+
+    <ScrollView
+        android:id="@+id/itemDescScrollView"
+        android:layout_width="192dp"
+        android:layout_height="128dp"
+        android:layout_below="@+id/titleText"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp">
+
+        <TextView
+            android:id="@+id/itemDescText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="italic"/>
+     </ScrollView>
+
+    <Gallery
+        android:id="@+id/imagesGallerys"
+        android:layout_toRightOf="@+id/itemDescScrollView"
+        android:layout_below="@+id/titleText"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="8dp"
+        android:layout_width="192dp"
+        android:layout_height="192dp"/>
+    
+    <TextView
+        android:id="@+id/countdownTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="remaining time"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:layout_below="@+id/itemDescScrollView"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="5dp"/>
+
+    <cn.iwgang.countdownview.CountdownView
+        android:id="@+id/timeLeftCountdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/countdownTitle"
+        android:layout_below="@+id/countdownTitle"
+        app:isHideTimeBackground="true"
+        app:isShowDay="true"
+        app:isShowHour="true"
+        app:isShowMinute="true"
+        app:isShowSecond="true"
+        app:isShowMillisecond="false"
+        app:timeTextColor="#FFFFFF"
+        app:timeTextSize="25sp"
+        app:isTimeTextBold="true"
+        app:suffixGravity="bottom"
+        app:suffixTextColor="#FFFFFF"
+        app:suffixTextSize="12sp"
+        app:suffixDay="d"
+        app:suffixHour="h"
+        app:suffixMinute="m"
+        app:suffixSecond="s"/>
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/timeLeftCountdown"
+        android:paddingTop="32dp">
+
+        <Button
+            android:id="@+id/functionButton"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="place a bid/purchase"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/active_button"/>
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="Cancel"
+            android:textSize="17sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/danger_button"
+            android:layout_marginLeft="20dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/bidsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="recent bids"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:textAllCaps="true"
+        android:layout_below="@+id/buttonsLayout"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="5dp"/>
+
+    <ListView
+        android:id="@+id/bidsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bidsTitle"
+        android:layout_alignStart="@+id/bidsTitle"/>
+
+</RelativeLayout>

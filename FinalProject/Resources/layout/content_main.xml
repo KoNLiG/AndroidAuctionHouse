@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/mainLayout"
+    android:paddingTop="32dp">
+    
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="48dp"/>
+
+    <LinearLayout
+        android:id="@+id/spinnersLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/textViewTitle"
+        android:layout_marginBottom="32dp"
+        android:gravity="center">
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/sortSpinner"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            app:ms_arrowColor="#42a5f5"
+            app:ms_arrowSize="12dp"
+            app:ms_floatingLabelColor="#42a5f5"
+            app:ms_floatingLabelText="Sort by"
+            app:ms_hintColor="#808080"
+            app:ms_hint="Sort function"/>
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/filterSpinner"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            app:ms_arrowColor="#42a5f5"
+            app:ms_arrowSize="12dp"
+            app:ms_floatingLabelColor="#42a5f5"
+            app:ms_floatingLabelText="Filter"
+            app:ms_hintColor="#808080"
+            app:ms_hint="Filter function"
+            android:layout_marginLeft="20dp"/>
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/searchLayout"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnersLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:hint="Search"
+            app:helperText="*Case-insensitive"
+            app:helperTextTextColor="#42a5f5"
+            app:startIconDrawable="@drawable/abc_ic_search_api_material"
+            app:endIconMode="clear_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="32">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLength="33"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ListView
+        android:id="@+id/auctionsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchLayout"/>
+
+</RelativeLayout>

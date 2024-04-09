@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+	<!--The attribute 'title' is used as a custom flag
+	    to decide whether the item should be visible at the condition
+		of whether a user is currently logged in: 
+		format is: "visibility_value|actual_title"
+		"visibility_value" will be removed at run-time.
+		'0' is neutral and its default value - always displays the item.
+		'-1' only displays if NOT logged in.
+		'1' only displays if LOGGED IN.-->
+	
+	<group android:checkableBehavior="single">
+		<item
+			android:id="@+id/nav_ah"
+			android:icon="@drawable/ic_menu_ah"
+			android:title="0|Auction House"/>
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_login"
+            android:title="-1|Login"/>
+		<item
+			android:id="@+id/nav_listauction"
+			android:icon="@drawable/ic_menu_listauction"
+			android:title="1|List an Auction"/>
+		<item
+			android:id="@+id/nav_myaccount"
+			android:icon="@drawable/ic_menu_myaccount"
+			android:title="1|My Account"/>
+    </group>
+
+	<item android:title="User Settings" android:id="@+id/nav_usercontrol">
+		<menu>
+			<item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_logout"
+                android:title="1|Log Out"/>
+		</menu>
+	</item>
+
+</menu>
