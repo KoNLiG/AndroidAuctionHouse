@@ -23,6 +23,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center|center_vertical"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/itemNameText">
 
         <TextView

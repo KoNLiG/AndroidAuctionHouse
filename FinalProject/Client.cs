@@ -14,7 +14,7 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace FinalProject
 {
-    class Client
+    public class Client
     {
         public static readonly int DEFAULT_COINS = 100;
 
@@ -262,7 +262,7 @@ namespace FinalProject
                 }
             }
         }
-
+        
         public int Coins
         {
             get { return this.coins; }

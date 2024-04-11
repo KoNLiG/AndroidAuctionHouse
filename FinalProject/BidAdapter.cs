@@ -94,7 +94,7 @@ namespace FinalProject
             bid_amount.Text = current_bid.Value.ToString("N0");
 
             // Set the bid time.
-            bid_time_left.Text = $"{Helper.FormatMinutes((int)(Helper.GetUnixTimeStamp() - current_bid.BidTime))} ago";
+            bid_time_left.Text = $"{Helper.FormatMinutes((int)(Helper.GetUnixTimeStamp() - current_bid.BidTime) / 60)} ago";
             
             return new_bid_layout;
         }

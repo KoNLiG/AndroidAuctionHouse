@@ -108,7 +108,6 @@ namespace FinalProject
                 return;
             }
 
-
             dialog_change_password.Cancel();
 
             // Update to the new password.

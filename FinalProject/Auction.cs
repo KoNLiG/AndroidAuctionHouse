@@ -84,8 +84,7 @@ namespace FinalProject
             cmd.Parameters.AddWithValue("?BIDDER_PHONE", bidder_phone);
             cmd.Parameters.AddWithValue("?VALUE", value);
 
-			long unix_time = Helper.GetUnixTimeStamp();
-			cmd.Parameters.AddWithValue("?BID_TIME", auction_id);
+			cmd.Parameters.AddWithValue("?BID_TIME", Helper.GetUnixTimeStamp());
 
 			cmd.ExecuteNonQuery();
 
@@ -112,6 +111,15 @@ namespace FinalProject
         {
 			get { return this.bid_time; }
 		}
+
+		// Price of outbidding |this| bid.
+		public int OutBid
+		{
+			get 
+			{ 
+				return this.value + (this.value * Auction.OUTBID_PERCENT) / 100;
+			}
+		}
 	}
 
     // Note that not all properties are always populated!
@@ -119,7 +127,6 @@ namespace FinalProject
     // to get a populated class.
     public class Auction
     {
-
         // Maximum lengths.
         public static readonly int MAX_NAME_LENGTH = 32;
 		public static readonly int MAX_DESC_LENGTH = 128;
@@ -132,6 +139,13 @@ namespace FinalProject
 
 		// Maximum allowed auctions to be active at once, PER CLIENT.
 		public static readonly int MAX_ACTIVE_AUCTIONS = 3;
+
+		// Percentage of additional coins to add to the outbid price.
+		public static readonly int OUTBID_PERCENT = 5;
+
+		// Amount of seconds to increase an auction end time,
+		// when someone placed a bid close to its ending.
+		public static readonly int EXTEND_SECONDS = 300;
 
 		// Different durations for auction items.
 		public static readonly int[] DURATIONS =
@@ -366,17 +380,41 @@ namespace FinalProject
 
 			Bid top_bid = this.bids[0];
 
-			// Loop through all bids and sort out the highest value one.
-			for (int current_bid = 1; current_bid < this.bids.Count; current_bid++)
-            {
+            // Loop through all bids and sort out the highest value one.
+            for (int current_bid = 1; current_bid < this.bids.Count; current_bid++)
+            { 
 				if (this.bids[current_bid].Value > top_bid.Value)
-                {
+				{
 					top_bid = this.bids[current_bid];
 				}
             }
 
 			return top_bid;
         }
+
+		// Same as the function above, only it is client specific.
+		public Bid FindTopBid(Client client)
+		{
+			// Invalid client/no bids available.
+			if (client == null || this.bids == null || this.bids.Count == 0)
+			{
+				return null;
+			}
+
+			Bid top_bid = null;
+
+			// Loop through all bids and sort out the highest value one,
+			// only with the expection of the given client.
+			for (int current_bid = 0; current_bid < this.bids.Count; current_bid++)
+            {
+				if(client == this.bids[current_bid].BidderPhone && (top_bid == null || this.bids[current_bid].Value > top_bid.Value))
+                {
+                    top_bid = this.bids[current_bid];
+                }
+            }
+
+			return top_bid;
+		}
 
 		//================[ Database ]================//
 
@@ -460,7 +498,23 @@ namespace FinalProject
 		public int BuyerPhone
         {
 			get { return this.buyer_phone; }
-		}
+            set
+            {
+                try
+                {
+                    MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                    MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.AUCTIONS_TBL_NAME}` SET `buyer_phone` = {value} WHERE `id` = {row_id}", db);
+                    cmd.ExecuteNonQuery();
+
+                    db.Close();
+                }
+                catch
+                {
+                    // silent error.
+                }
+            }
+        }
 
 		public string ItemName
 		{

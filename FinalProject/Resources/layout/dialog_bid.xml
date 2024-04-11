@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#424242">
+
+   <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="850px"
+        android:layout_height="wrap_content"
+        android:text="TEXT"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="#8bb1bd"
+        android:layout_marginBottom="35dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/bidLayout"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="48dp"
+            android:hint="Bid"
+            app:helperText="Type: BIN"
+            app:helperTextTextColor="#42a5f5"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/mtrl_ic_error">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bidField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.spark.submitbutton.SubmitButton
+        android:id="@+id/placeButton"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:text="PLACE"
+        android:textColor="#808080"
+        app:sub_btn_background="#FFF"
+        app:sub_btn_duration="2300"
+        app:sub_btn_line_color="#99FF00"
+        app:sub_btn_ripple_color="#99FF00"
+        app:sub_btn_tick_color="#FFF"
+        android:layout_below="@+id/bidLayout"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

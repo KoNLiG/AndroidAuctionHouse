@@ -78,8 +78,8 @@ namespace FinalProject
             TextView item_value_desc = new_auction_layout.FindViewById<TextView>(Resource.Id.itemValueDescText);
             TextView item_value = new_auction_layout.FindViewById<TextView>(Resource.Id.itemValueText);
 
-            Auction current_auction = this.auctions[position];
-            if (current_auction == null)
+            Auction current_auction = new Auction(this.auctions[position].RowId);
+            if (current_auction.RowId == 0)
             {
                 return null;
             }
@@ -96,8 +96,15 @@ namespace FinalProject
             }
 
             item_name.Text = current_auction.ItemName;
-            item_value_desc.Text = current_auction.Type == AuctionType.BIN ? "Price:" : "Starting bid:";
-            item_value.Text = current_auction.Value.ToString("N0");
+
+            Bid top_bid = current_auction.FindTopBid();
+
+            item_value_desc.Text = current_auction.Type == AuctionType.BIN ? "Price" : top_bid == null ? "Starting bid" : "Top bid";
+
+            int coins = current_auction.Type == AuctionType.BIN ? current_auction.Value : top_bid == null ? current_auction.Value : top_bid.Value;
+
+            item_value.Text = coins.ToString("N0");
+            item_value.PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
 
             return new_auction_layout;
         }
