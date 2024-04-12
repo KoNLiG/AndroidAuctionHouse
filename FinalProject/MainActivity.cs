@@ -282,7 +282,18 @@ namespace FinalProject
                         base64_image = "";
                     }
 
-                    auctions.Add(new Auction(id, item_name, value, type, base64_image));
+                    Auction auction = new Auction(id, item_name, value, type, base64_image);
+
+                    // Fetch the top bid if available.
+                    if (!reader.IsDBNull(reader.GetOrdinal("top_bid")))
+                    {
+                        List<Bid> top_bid_list = new List<Bid>();
+                        top_bid_list.Add(new Bid(0, 0, reader.GetInt32("top_bid"), 0, true));
+
+                        auction.Bids = top_bid_list;
+                    }
+
+                    auctions.Add(auction);
                 }
             }
 
@@ -298,7 +309,7 @@ namespace FinalProject
         {
             // auctions table - 'au'
             // images table - 'img'
-            string query = $"SELECT au.id, au.item_name, value, type, img.image_data as image FROM {Helper.DB.AUCTIONS_TBL_NAME} au LEFT JOIN {Helper.DB.IMAGES_TBL_NAME} img ON img.auction_id = au.id AND img.id = (SELECT MIN(img2.id) FROM {Helper.DB.IMAGES_TBL_NAME} img2 WHERE img2.auction_id = au.id) WHERE au.buyer_phone IS NULL";
+            string query = $"SELECT au.id, au.item_name, value, type, img.image_data as image, (SELECT MAX(bids.value) FROM {Helper.DB.BIDS_TBL_NAME} bids WHERE bids.auction_id = au.id) as top_bid FROM {Helper.DB.AUCTIONS_TBL_NAME} au LEFT JOIN {Helper.DB.IMAGES_TBL_NAME} img ON img.auction_id = au.id AND img.id = (SELECT MIN(img2.id) FROM {Helper.DB.IMAGES_TBL_NAME} img2 WHERE img2.auction_id = au.id) WHERE au.buyer_phone IS NULL";
 
             // Handle filtering ('WHERE' clause always comes before 'ORDER BY'):
             int filter_spinner_position = filter_spinner.SelectedItemPosition;

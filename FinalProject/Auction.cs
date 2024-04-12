@@ -605,6 +605,7 @@ namespace FinalProject
 		public List<Bid> Bids
 		{
 			get { return this.bids; }
+			set { this.bids = value; }
 		}
 	}
 }

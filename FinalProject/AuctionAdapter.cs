@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,8 +79,8 @@ namespace FinalProject
             TextView item_value_desc = new_auction_layout.FindViewById<TextView>(Resource.Id.itemValueDescText);
             TextView item_value = new_auction_layout.FindViewById<TextView>(Resource.Id.itemValueText);
 
-            Auction current_auction = new Auction(this.auctions[position].RowId);
-            if (current_auction.RowId == 0)
+            Auction current_auction = this.auctions[position];
+            if (current_auction == null)
             {
                 return null;
             }
