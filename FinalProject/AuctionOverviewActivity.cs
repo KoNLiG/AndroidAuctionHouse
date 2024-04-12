@@ -507,9 +507,10 @@ namespace FinalProject
             SubmitButton button = (SubmitButton)sender;
 
             button.PostDelayed(() => {
-                // Refresh and display the new bid.
-                FetchBids();
-                dialog_bid.Cancel();
+                // Refresh the page.
+                Intent intent = new Intent(this, typeof(AuctionOverviewActivity));
+                intent.PutExtra("auction_id", auction_id);
+                StartActivity(intent);
             }, 2300); // 2300ms for the animation duration. (see the layout)
         }
 
