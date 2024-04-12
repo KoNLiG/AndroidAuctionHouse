@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewTitle"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="48dp"
+            android:layout_marginBottom="16dp"
             android:hint="Bid"
             app:helperText="Type: BIN"
             app:helperTextTextColor="#42a5f5"
