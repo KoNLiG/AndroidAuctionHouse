@@ -180,6 +180,9 @@ namespace FinalProject
 
             SubmitButton button = (SubmitButton)sender;
 
+            button.Touch -= Create_button_Touch;
+            button.Click -= Create_button_Click;
+
             button.PostDelayed(() => {
                 // Transfer the client to the item page.
                 Intent intent = new Intent(this, typeof(AuctionOverviewActivity));

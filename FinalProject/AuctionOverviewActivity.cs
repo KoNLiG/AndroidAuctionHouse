@@ -506,6 +506,9 @@ namespace FinalProject
 
             SubmitButton button = (SubmitButton)sender;
 
+            button.Touch -= Place_button_Touch;
+            button.Click -= Place_button_Click;
+
             button.PostDelayed(() => {
                 // Refresh the page.
                 Intent intent = new Intent(this, typeof(AuctionOverviewActivity));
