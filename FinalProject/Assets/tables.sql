@@ -69,4 +69,15 @@ CREATE TABLE IF NOT EXISTS `ah_images` (
   FOREIGN KEY (`auction_id`) REFERENCES `ah_auctions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Events
+--
+
+CREATE OR REPLACE EVENT `HandleExpiredAuctions` 
+ON SCHEDULE EVERY 1 SECOND 
+DO 
+  UPDATE `ah_auctions` SET `status` = 2 WHERE `end_time` <= UNIX_TIMESTAMP() AND `status` = 0;
+
 COMMIT;

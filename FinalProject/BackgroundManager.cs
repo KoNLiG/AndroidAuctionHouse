@@ -116,8 +116,8 @@ namespace FinalProject
         private GradientDrawable.Orientation FlipOrientation(GradientDrawable.Orientation orientation)
         {
             // GradientDrawable.Orientation[] orientations = GradientDrawable.Orientation.Values();
-            GradientDrawable.Orientation[] orientations = 
-            { 
+            GradientDrawable.Orientation[] orientations =
+            {
                 GradientDrawable.Orientation.BlTr,
                 GradientDrawable.Orientation.BottomTop,
                 GradientDrawable.Orientation.BrTl,

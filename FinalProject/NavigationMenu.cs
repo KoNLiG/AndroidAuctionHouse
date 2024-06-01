@@ -60,7 +60,7 @@ namespace FinalProject
         }
 
         /* 
-         * The attribute 'orderInCategory' is used as a custom flag
+         * The attribute 'title' is used as a custom flag
          * to decide whether the item should be visible at the condition
          * of whether a user is currently logged in: 
          * format is: "visibility_value|actual_title"
@@ -280,7 +280,7 @@ namespace FinalProject
             this.UpdateBalance();
         }
 
-        // Unused interface methods that we must implement.
+        // Unused interface methods that we must "implement".
         public void OnDrawerOpened(View drawerView) {}
         public void OnDrawerClosed(View drawerView) {}
         public void OnDrawerStateChanged(int newState) {}

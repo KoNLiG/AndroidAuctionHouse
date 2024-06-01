@@ -28,7 +28,7 @@ namespace FinalProject
 		Expired, // The auction has expired. (its duration has passed) [2]
 		Canceled // The auction has been manually cancaled by the owner. [3]
     }
-
+	
 	// This class represents one bid of a specific auction.
     public class Bid
     {
@@ -83,7 +83,6 @@ namespace FinalProject
             cmd.Parameters.AddWithValue("?AUCTION_ID", auction_id);
             cmd.Parameters.AddWithValue("?BIDDER_PHONE", bidder_phone);
             cmd.Parameters.AddWithValue("?VALUE", value);
-
 			cmd.Parameters.AddWithValue("?BID_TIME", Helper.GetUnixTimeStamp());
 
 			cmd.ExecuteNonQuery();
