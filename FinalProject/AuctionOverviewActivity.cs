@@ -85,7 +85,7 @@ namespace FinalProject
             // "textAllCaps" is enabled.
             function_button.Text = auction.Type == AuctionType.BIN ? "purchase" : "place a bid";
             function_button.Click += Function_button_Click;
-            Helper.SetButtonState(this, function_button, CanAffordAuctionValue(auction, runtime_client));
+            Helper.SetButtonState(this, function_button, CanAffordAuction(auction, runtime_client));
 
             cancel_button = FindViewById<Button>(Resource.Id.cancelButton);
             cancel_button.Click += Cancel_button_Click;
@@ -201,7 +201,7 @@ namespace FinalProject
                 return;
             }
 
-            if (!CanAffordAuctionValue(auction, runtime_client))
+            if (!CanAffordAuction(auction, runtime_client))
             {
                 Helper.SetButtonState(this, function_button, false);
 
@@ -220,7 +220,17 @@ namespace FinalProject
                 auction.Status = AuctionStatus.Bought;
                 auction.EndTime = Helper.GetUnixTimeStamp();
                 auction.BuyerPhone = runtime_client.PhoneNumber;
-                
+
+                // Subtract coins from the buyer.
+                runtime_client.Coins -= auction.Value;
+
+                // Add coins to the owner.
+                Client owner = new Client(auction.BuyerPhone);
+                if (owner != null)
+                {
+                    owner.Coins += auction.Value;
+                }
+
                 // Evacuate the client.
                 StartActivity(new Intent(this, typeof(MainActivity)));
                 FinishAffinity();
@@ -324,7 +334,7 @@ namespace FinalProject
             bids_list_view.Adapter = new BidAdapter(this, bids);
         }
 
-        private bool CanAffordAuctionValue(Auction auction, Client runtime_client)
+        private bool CanAffordAuction(Auction auction, Client runtime_client)
         {
             // Clients cannot buy their own items.
             if (runtime_client == auction.OwnerPhone)
@@ -332,13 +342,13 @@ namespace FinalProject
                 return false;
             }
 
-            if (auction.Type == AuctionType.BIN) 
+            if (auction.Type == AuctionType.BIN)
             {
                 return (auction.Value <= runtime_client.Coins);
             }
 
-            // always true for auction type bids. (temporary)
-            return true;
+            Bid top_bid = auction.FindTopBid();
+            return (top_bid == null || top_bid.Value <= runtime_client.Coins);
         }
 
         public void DisplayBidDialog(Auction auction)
