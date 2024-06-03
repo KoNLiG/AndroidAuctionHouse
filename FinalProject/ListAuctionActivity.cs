@@ -95,6 +95,12 @@ namespace FinalProject
         // (in-case of input error)
         private void Create_button_Touch(object sender, View.TouchEventArgs e)
         {
+            if (e.Event.Action != MotionEventActions.Up)
+            {
+                e.Handled = false;
+                return;
+            }
+
             // Reset old/unrelevant errors.
             name_layout.Error = "";
             desc_layout.Error = "";

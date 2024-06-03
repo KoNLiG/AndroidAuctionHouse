@@ -98,10 +98,10 @@ namespace FinalProject
 
         public static void FireInputError(Context context, ViewGroup root, View view, string text)
         {
-            TooltipEx tooltip = new TooltipEx(context, view, root, text, ToolTip.PositionBelow, 5);
+            TooltipEx tooltip = new TooltipEx(context, view, root, text, ToolTip.PositionAbove, 5);
 
-            tooltip.builder.SetBackgroundColor(new Color(218, 55, 60)); // light red.
-            tooltip.builder.SetTextSize(17); // 17 as in "sp".
+            tooltip.builder.SetBackgroundColor(new Color(63, 113, 132));
+            tooltip.builder.SetTextSize(12); // 12 as in "sp".
 
             tooltip.Display();
         }

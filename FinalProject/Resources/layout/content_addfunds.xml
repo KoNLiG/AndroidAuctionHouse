@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainLayout"
+    android:paddingTop="32dp">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Funds"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="64dp"/>
+
+    <TextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter your payment details"
+        android:textSize="15sp"
+        android:textColor="#8bb1bd"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@+id/textViewTitle"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="32dp"/>
+    
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:id="@+id/amountLayout"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:hint="Amount"
+        app:helperText="*Amount of funds to be added"
+        app:helperTextTextColor="#42a5f5"
+        app:endIconMode="dropdown_menu"
+        app:startIconDrawable="@android:drawable/ic_input_add"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/mtrl_ic_error">
+
+        <AutoCompleteTextView
+            android:id="@+id/amountField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/cardNumberLayout"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amountLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:hint="Card Number"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@android:drawable/ic_secure"
+        app:counterEnabled="true"
+        app:counterMaxLength="19"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/mtrl_ic_error">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/cardNumberField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="19"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/expireLayout"
+        android:layout_width="146dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardNumberLayout"
+        android:layout_alignStart="@+id/cardNumberLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="4dp"
+        android:hint="Exp (MM/YY)"
+        app:endIconMode="clear_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="5"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/mtrl_ic_error">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/expireField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="5"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/CVCLayout"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/expireLayout"
+        android:layout_alignBaseline="@+id/expireLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="4dp"
+        android:hint="CVC"
+        app:endIconMode="clear_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="3"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/mtrl_ic_error">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/CVCField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="3"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.spark.submitbutton.SubmitButton
+        android:id="@+id/addButton"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:text="Add To Wallet"
+        android:textColor="#808080"
+        app:sub_btn_background="#FFF"
+        app:sub_btn_duration="2300"
+        app:sub_btn_line_color="#99FF00"
+        app:sub_btn_ripple_color="#99FF00"
+        app:sub_btn_tick_color="#FFF"
+        android:layout_below="@+id/CVCLayout"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

@@ -59,6 +59,34 @@ namespace FinalProject
             return ((AppCompatActivity)context).FindViewById<NavigationView>(Resource.Id.nav_view);
         }
 
+        public View GetHeader()
+        {
+            // It's safe to assume '0' is a valid index since
+            // there is a static xml header compiled into the nav view.
+            return GetNavigationView().GetHeaderView(0);
+        }
+
+        public TextView GetNameView()
+        {
+            // It's safe to assume '0' is a valid index since
+            // there is a static xml header compiled into the nav view.
+            return GetNavigationView().GetHeaderView(0).FindViewById<TextView>(Resource.Id.tvName);
+        }
+
+        public TextView GetPhoneView()
+        {
+            // It's safe to assume '0' is a valid index since
+            // there is a static xml header compiled into the nav view.
+            return GetNavigationView().GetHeaderView(0).FindViewById<TextView>(Resource.Id.tvPhone);
+        }
+
+        public TextView GetBalanceView()
+        {
+            // It's safe to assume '0' is a valid index since
+            // there is a static xml header compiled into the nav view.
+            return GetNavigationView().GetHeaderView(0).FindViewById<TextView>(Resource.Id.tvBalance);
+        }
+
         /* 
          * The attribute 'title' is used as a custom flag
          * to decide whether the item should be visible at the condition
@@ -119,15 +147,9 @@ namespace FinalProject
 
         private void SetTitles()
         {
-            NavigationView navigation_view = GetNavigationView();
-
-            // It's safe to assume '0' is a valid index since
-            // there is a static xml header compiled into the nav view.
-            View header = navigation_view.GetHeaderView(0);
-
-            TextView tv_name = header.FindViewById<TextView>(Resource.Id.tvName);
-            TextView tv_phone = header.FindViewById<TextView>(Resource.Id.tvPhone);
-            TextView tv_balance = header.FindViewById<TextView>(Resource.Id.tvBalance);
+            TextView tv_name = GetNameView();
+            TextView tv_phone = GetPhoneView();
+            TextView tv_balance = GetBalanceView();
 
             if (!RuntimeClient.IsLoggedIn())
             {
@@ -150,7 +172,7 @@ namespace FinalProject
         {
             // It's safe to assume '0' is a valid index since
             // there is a static xml header compiled into the nav view.
-            TextView tv_balance = GetNavigationView().GetHeaderView(0).FindViewById<TextView>(Resource.Id.tvBalance);
+            TextView tv_balance = GetBalanceView();
 
             if (!RuntimeClient.IsLoggedIn())
             {
@@ -217,6 +239,12 @@ namespace FinalProject
 
                     break;
                 }
+                case Resource.Id.nav_addfunds:
+                {
+                    context.StartActivity(new Intent(context, typeof(AddFundsActivity)));
+
+                    break;
+                }
                 case Resource.Id.nav_logout:
                 {
                     // Delete the current runtime client.
@@ -245,6 +273,7 @@ namespace FinalProject
                 case LoginActivity login:return Resource.Id.nav_login;
                 case ListAuctionActivity list_auction: return Resource.Id.nav_listauction;
                 case AccountActivity account: return Resource.Id.nav_myaccount;
+                case AddFundsActivity addfunds: return Resource.Id.nav_addfunds;
 
                 default: return 0;
             }

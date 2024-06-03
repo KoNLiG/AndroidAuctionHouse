@@ -100,5 +100,73 @@ namespace FinalProject
 
             return "";
         }
+
+        public static string FundsAmount(string amount)
+        {
+            if (string.IsNullOrEmpty(amount))
+            {
+                return "Please select an amount";
+            }
+
+            if (AddFundsActivity.GetFundValue(amount) == -1)
+            {
+                return "Invalid amount has been selected";
+            }
+
+            return "";
+        }
+
+        public static string CardNumber(string number)
+        {
+            if (string.IsNullOrEmpty(number))
+            {
+                return "Please enter a card number";
+            }
+
+            // 16 for a credit card length, 4 in each octet.
+            if (number.Replace(" ", "").Length != 16)
+            {
+                return "Please enter 16 digit card number";
+            }
+
+            return "";
+        }
+
+        public static string CardExpire(string expire)
+        {
+            if (string.IsNullOrEmpty(expire))
+            {
+                return "Please enter card expiry date";
+            }
+
+            string no_slash_expire = expire.Replace("/", "");
+            if (no_slash_expire.Length < 2) // 2 month digits
+            {
+                return "Please enter an expiry month";
+            }
+
+            int month = int.Parse(no_slash_expire.Substring(0, 2));
+            if (!(1 <= month && month <= 12))
+            {
+                return "Please enter a valid month";
+            }
+            
+            if (no_slash_expire.Length != 4)
+            {
+                return "Please enter an expiry date.";
+            }
+
+            return "";
+        }
+
+        public static string CardCVC(string cvc)
+        {
+            if (string.IsNullOrEmpty(cvc) || cvc.Length != 3)
+            {
+                return "Please enter card CVC";
+            }
+
+            return "";
+        }
     }
 }
