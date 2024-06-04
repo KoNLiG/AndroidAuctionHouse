@@ -157,6 +157,13 @@ namespace FinalProject
             }
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            FetchAuctions();
+        }
+
         // Called once the user has triggered the "back" operation by left swiping, etc..
         // If the navigation menu is open, override the action and close it first.
         public override void OnBackPressed()

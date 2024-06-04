@@ -39,6 +39,9 @@ namespace FinalProject
         private Dialog dialog_camera;
         private Button take_button, select_button;
 
+        // Created an auction? (used to skip this page)
+        private bool created_auction;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -81,6 +84,18 @@ namespace FinalProject
             create_button = FindViewById<SubmitButton>(Resource.Id.createButton);
             create_button.Touch += Create_button_Touch;
             create_button.Click += Create_button_Click;
+        }
+
+        // Skip this activity if an auction has been already 
+        // created here.
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            if (created_auction)
+            {
+                this.OnBackPressed();
+            }
         }
 
         // Called once the user has triggered the "back" operation by left swiping, etc..
@@ -194,13 +209,9 @@ namespace FinalProject
                 Intent intent = new Intent(this, typeof(AuctionOverviewActivity));
                 intent.PutExtra("auction_id", new_auction.RowId);
 
-                // Set the 'from_listing' flag to true, so the 'AuctionOverviewActivity'
-                // page will know to redirect the user to the 'MainActivity` page on back action.
-                intent.PutExtra("from_listing", true); 
+                created_auction = true;
 
                 StartActivity(intent);
-                FinishAffinity();
-
             }, 2300); // 2300ms for the animation duration. (see the layout)
         }
 

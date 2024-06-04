@@ -35,10 +35,6 @@ namespace FinalProject
         // Auction identifier we're overviewing.
         private long auction_id;
 
-        // True if the user got redirected to this page from listing
-        // a new auction, false otherwise.
-        private bool is_from_listing;
-
         // Properties related to the bid setup.
         private Dialog dialog_bid;
         private TextInputLayout bid_layout;
@@ -74,8 +70,6 @@ namespace FinalProject
                 return;
             }
 
-            is_from_listing = Intent.GetBooleanExtra("from_listing", false);
-
             PopulatePageData(auction);
 
             Client runtime_client = RuntimeClient.Get();
@@ -100,17 +94,26 @@ namespace FinalProject
             }
         }
 
-        // 1. Called once the user has triggered the "back" operation by left swiping, etc..
-        //    If the navigation menu is open, override the action and close it first.
-        // 
-        // 2. If we didn't close any drawer, and 'is_from_listing' is true, 
-        //    reditect the user to 'MainActivity' page. 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            Auction auction = new Auction(auction_id);
+            if (auction.RowId == 0)
+            {
+                // An auction id was sent, but it was invalid.
+                OnBackPressed();
+                return;
+            }
+
+            PopulatePageData(auction);
+        }
+
+        // Called once the user has triggered the "back" operation by left swiping, etc..
+        // If the navigation menu is open, override the action and close it first.
         public override void OnBackPressed()
         {
-            if (!navigation_menu.OnBackPressed(base.OnBackPressed) && is_from_listing)
-            {
-                StartActivity(new Intent(this, typeof(MainActivity)));
-            }
+            navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
         private void PopulatePageData(Auction auction)
@@ -521,9 +524,9 @@ namespace FinalProject
 
             button.PostDelayed(() => {
                 // Refresh the page.
-                Intent intent = new Intent(this, typeof(AuctionOverviewActivity));
-                intent.PutExtra("auction_id", auction_id);
-                StartActivity(intent);
+                OnResume();
+
+                dialog_bid.Cancel();
 
             }, 2300); // 2300ms for the animation duration. (see the layout)
         }

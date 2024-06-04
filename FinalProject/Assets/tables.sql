@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `ah_clients` (
   `first_name` varchar(64) NOT NULL,
   `last_name` varchar(64) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `coins` int(11) DEFAULT ?DEFAULT_COINS,
+  `coins` int(11) DEFAULT 500,
   PRIMARY KEY (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -75,9 +75,78 @@ CREATE TABLE IF NOT EXISTS `ah_images` (
 -- Events
 --
 
-CREATE OR REPLACE EVENT `HandleExpiredAuctions` 
+CREATE OR REPLACE EVENT `TriggerHandleExpiredAuctions` 
 ON SCHEDULE EVERY 1 SECOND 
 DO 
-  UPDATE `ah_auctions` SET `status` = 2 WHERE `end_time` <= UNIX_TIMESTAMP() AND `status` = 0;
+  SELECT HandleExpiredAuctions();
+
+CREATE OR REPLACE FUNCTION HandleExpiredAuctions()
+RETURNS INT(1)
+BEGIN
+    DECLARE auction_id INT;
+    DECLARE auction_owner INT;
+    DECLARE bidder INT;
+    DECLARE amount INT;
+    DECLARE done BOOLEAN DEFAULT FALSE;
+
+    DECLARE current_auction_id INT DEFAULT 0;
+    DECLARE auction_count INT DEFAULT 0;
+
+    DECLARE expired_auctions_cur CURSOR FOR
+        SELECT a.id, a.owner_phone, b.bidder_phone, b.value
+        FROM ah_auctions a
+        LEFT JOIN ah_bids b ON a.id = b.auction_id AND b.legacy_bid = 0
+        WHERE a.end_time <= UNIX_TIMESTAMP()
+        AND a.status = 0 
+        AND a.type = 1
+        ORDER BY a.id, b.value DESC;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN expired_auctions_cur;
+
+    read_loop: LOOP
+        FETCH expired_auctions_cur INTO auction_id, auction_owner, bidder, amount;
+
+        IF done THEN
+            SET done = FALSE;
+            LEAVE read_loop;
+        END IF;
+
+        IF auction_id != current_auction_id THEN
+            SET current_auction_id = auction_id;
+            SET auction_count = 0;
+        END IF;
+
+        IF auction_count = 0 THEN
+            UPDATE ah_clients
+            SET coins = coins + amount
+            WHERE phone = auction_owner;
+
+            UPDATE ah_auctions
+            SET buyer_phone = bidder
+            WHERE id = auction_id;
+        ELSE 
+            UPDATE ah_clients
+            SET coins = coins + amount
+            WHERE phone = bidder;
+        END IF;
+
+        SET auction_count = auction_count + 1;
+        
+    END LOOP;
+
+    CLOSE expired_auctions_cur;
+
+    UPDATE 
+    ah_auctions
+    SET status = 2 
+    WHERE end_time <= UNIX_TIMESTAMP() 
+    AND `status` = 0;
+
+    RETURN 0;
+END;
+
+SET GLOBAL event_scheduler="ON";
 
 COMMIT;

@@ -9,6 +9,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Com.Tomergoldst.Tooltips;
+using Google.Android.Material.Snackbar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,24 +53,16 @@ namespace FinalProject
 
             FindViewById<TextView>(Resource.Id.textViewTitle).PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
 
-            Client runtime_client = RuntimeClient.Get();
-
             first_name_et = FindViewById<EditText>(Resource.Id.firstNameField);
             new ClearableEditText(this, first_name_et);
-            first_name_et.Hint = runtime_client.FirstName;
-            first_name_et.Text = runtime_client.FirstName;
             first_name_et.AfterTextChanged += Field_AfterTextChanged;
 
             last_name_et = FindViewById<EditText>(Resource.Id.lastNameField);
             new ClearableEditText(this, last_name_et);
-            last_name_et.Hint = runtime_client.LastName;
-            last_name_et.Text = runtime_client.LastName;
             last_name_et.AfterTextChanged += Field_AfterTextChanged;
 
             phone_et = FindViewById<EditText>(Resource.Id.phoneField);
             new ClearableEditText(this, phone_et);
-            phone_et.Hint = $"0{runtime_client.PhoneNumber}";
-            phone_et.Text = $"0{runtime_client.PhoneNumber}";
             phone_et.AfterTextChanged += Field_AfterTextChanged;
 
             password_et = FindViewById<EditText>(Resource.Id.passwordField);
@@ -81,6 +74,8 @@ namespace FinalProject
 
             delete_account_button = FindViewById<Button>(Resource.Id.buttonDeleteAccount);
             delete_account_button.Click += Delete_account_button_Click;
+
+            PopulatePageData();
         }
 
         // Called once the user has triggered the "back" operation by left swiping, etc..
@@ -179,8 +174,11 @@ namespace FinalProject
             // if we did change the phone, reload the page after verification.
             if (!changed_phone && (changed_first_name || changed_last_name))
             {
-                StartActivity(new Intent(this, typeof(AccountActivity)));
-                FinishAffinity();
+                Snackbar snackbar = Snackbar.Make(main_layout, $"Successfully updated your account information", Snackbar.LengthLong);
+                snackbar.SetTextColor(new Color(100, 231, 100));
+                snackbar.Show();
+
+                PopulatePageData();
             }
         }
 
@@ -195,8 +193,7 @@ namespace FinalProject
         {
             if (changed_first_name || changed_last_name)
             {
-                StartActivity(new Intent(this, typeof(AccountActivity)));
-                FinishAffinity();
+                PopulatePageData();
             }
         }
 
@@ -246,6 +243,23 @@ namespace FinalProject
             intent.PutExtra("phone", phone_number);
             StartActivity(intent);
             FinishAffinity();
+        }
+
+        void PopulatePageData()
+        {
+            Client runtime_client = RuntimeClient.Get();
+
+            first_name_et.Hint = runtime_client.FirstName;
+            first_name_et.Text = runtime_client.FirstName;
+            first_name_et.ClearFocus();
+
+            last_name_et.Hint = runtime_client.LastName;
+            last_name_et.Text = runtime_client.LastName;
+            last_name_et.ClearFocus();
+
+            phone_et.Hint = $"0{runtime_client.PhoneNumber}";
+            phone_et.Text = $"0{runtime_client.PhoneNumber}";
+            phone_et.ClearFocus();
         }
 
         public void OnTipDismissed(View p0, int p1, bool p2)
