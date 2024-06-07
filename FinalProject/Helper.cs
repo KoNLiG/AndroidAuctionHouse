@@ -26,6 +26,7 @@ namespace FinalProject
             public static string AUCTIONS_TBL_NAME = "ah_auctions";
             public static string BIDS_TBL_NAME = "ah_bids";
             public static string IMAGES_TBL_NAME = "ah_images";
+            public static string STATS_TBL_NAME = "ah_stats";
 
             /*public static class Connection
             {
@@ -44,7 +45,7 @@ namespace FinalProject
                 public static string Password { get; } = "!OY@e.x!9SY08aiHFLvU3BvM";
                 public static uint Port { get; } = 3306;
             }
-
+            
             private static string BuildConnectionString()
             {
                 var builder = new MySqlConnectionStringBuilder
@@ -88,7 +89,7 @@ namespace FinalProject
                 return sp;
             }
         }
-
+        
         public static void SetButtonState(Context context, Button button, bool enabled)
         {
             button.Enabled = enabled;
@@ -120,7 +121,7 @@ namespace FinalProject
             int totalHours = (minutes / 60) % 24;
             int totalDays = (minutes / (60 * 24)) % 7;
             int totalWeeks = minutes / (60 * 24 * 7);
-
+            
             if (totalWeeks > 0)
             {
                 format = $"{totalWeeks}w"; /*, totalWeeks != 1 ? "s" : ""*/

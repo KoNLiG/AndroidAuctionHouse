@@ -33,7 +33,12 @@
 			android:id="@+id/nav_addfunds"
 			android:icon="@android:drawable/ic_menu_add"
 			android:title="1|Add Funds"/>
-		
+
+		<item
+			android:id="@+id/nav_stats"
+			android:icon="@android:drawable/ic_menu_sort_by_size"
+			android:title="1|Statistics"/>
+
 		<!-- ic_menu_sort_by_size for statistics!!-->
     </group>
 

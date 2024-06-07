@@ -16,6 +16,276 @@ namespace FinalProject
 {
     public class Client
     {
+        // Various client statistics.
+        public class Stats
+        {
+            // Phone number we're working with.
+            private int phone_number;
+
+            // Buyer stats.
+            private int auctions_won;
+            private int total_bids;
+
+            private int highest_bid;
+            private int coins_spent;
+
+            // Seller stats.
+            private int auctions_created;
+            private int auctions_completed_with_bids;
+            private int auctions_completed_without_bids;
+
+            private int highest_auction_held;
+            private int total_coins_earned;
+            private int coins_spent_on_fees;
+
+            // Stats constructor.
+            public Stats()
+            {
+                this.auctions_won = 0;
+                this.total_bids = 0;
+                this.highest_bid = 0;
+                this.coins_spent = 0;
+
+                this.auctions_created = 0;
+                this.auctions_completed_with_bids = 0;
+                this.auctions_completed_without_bids = 0;
+                this.highest_auction_held = 0;
+                this.total_coins_earned = 0;
+                this.coins_spent_on_fees = 0;
+            }
+
+            // Stats constructor that implements database loading.
+            public Stats(MySqlConnection db, int phone_number)
+            {
+                this.phone_number = phone_number;
+
+                MySqlCommand cmd = new MySqlCommand($"SELECT * FROM `{Helper.DB.STATS_TBL_NAME}` WHERE `phone` = {phone_number}", db);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    // Loop through the rows of the reader
+                    if (reader.Read())
+                    {
+                        this.auctions_won = reader.GetInt32("auctions_won");
+                        this.total_bids = reader.GetInt32("total_bids");
+                        this.highest_bid = reader.GetInt32("highest_bid");
+                        this.coins_spent = reader.GetInt32("coins_spent");
+
+                        this.auctions_created = reader.GetInt32("auctions_created");
+                        this.auctions_completed_with_bids = reader.GetInt32("auctions_completed_with_bids");
+                        this.auctions_completed_without_bids = reader.GetInt32("auctions_completed_without_bids");
+                        this.highest_auction_held = reader.GetInt32("highest_auction_held");
+                        this.total_coins_earned = reader.GetInt32("total_coins_earned");
+                        this.coins_spent_on_fees = reader.GetInt32("coins_spent_on_fees");
+                    }
+                }
+
+                db.Close();
+            }
+
+            // Attempts to insert an empty stats row.
+            public bool Insert(MySqlConnection db, int phone_number)
+            {
+                try
+                {
+                    MySqlCommand cmd = new MySqlCommand($"INSERT INTO `{Helper.DB.STATS_TBL_NAME}` (phone) VALUES(?phone_number)", db);
+                    cmd.Parameters.AddWithValue("?phone_number", phone_number);
+                    cmd.ExecuteNonQuery();
+
+                    db.Close();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            // This will get updated automatically in the db function,
+            // and the reason is has a setter is purely for BIN auctions.
+            public int AuctionsWon
+            {
+                get { return this.auctions_won; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `auctions_won` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+
+            public int TotalBids
+            {
+                get { return this.total_bids; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `total_bids` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+
+            public int HighestBid
+            {
+                get { return this.highest_bid; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `highest_bid` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+
+            public int CoinsSpent
+            {
+                get { return this.coins_spent; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `coins_spent` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+
+            public int AuctionsCreated
+            {
+                get { return this.auctions_created; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `auctions_created` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+
+            // This gets updated automatically through the db function,
+            // therefore no need for a setter.
+            public int AuctionsCompletedWithBids
+            {
+                get { return this.auctions_completed_with_bids; }
+            }
+
+            // This gets updated automatically through the db function,
+            // therefore no need for a setter.
+            public int AuctionsCompletedWithoutBids
+            {
+                get { return this.auctions_completed_without_bids; }
+            }
+
+            public int HighestAuctionHeld
+            {
+                get { return this.highest_auction_held; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `highest_auction_held` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+
+            public int TotalCoinsEarned
+            {
+                get { return this.total_coins_earned; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `total_coins_earned` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+
+            public int CoinsSpentOnFees
+            {
+                get { return this.coins_spent_on_fees; }
+                set
+                {
+                    try
+                    {
+                        MySqlConnection db = Helper.DB.ConnectDatabase();
+
+                        MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.STATS_TBL_NAME}` SET `coins_spent_on_fees` = {value} WHERE `phone` = {phone_number}", db);
+                        cmd.ExecuteNonQuery();
+
+                        db.Close();
+                    }
+                    catch
+                    {
+                        // silent error.
+                    }
+                }
+            }
+        }
+
         public static readonly int DEFAULT_COINS = 100;
 
         // First 9 digits of the phone number. (excluding the 0 prefix)
@@ -31,6 +301,9 @@ namespace FinalProject
         // Coins, default is 100. (set by the constant 'DEFAULT_COINS')
         private int coins;
 
+        // An object stores all the stats relevant to this client.
+        private Stats stats;
+
         // Client constructor.
         public Client(int phone_number, string first_name, string last_name, string password, int coins = 0)
         {
@@ -39,6 +312,8 @@ namespace FinalProject
             this.last_name = last_name;
             this.password = password;
             this.coins = coins;
+
+            this.stats = new Stats();
         }
 
         // Client constructor that implements database loading.
@@ -60,6 +335,8 @@ namespace FinalProject
                     this.coins = reader.GetInt32("coins");
                 }
             }
+
+            this.stats = new Stats(db, phone_number);
 
             db.Close();
         }
@@ -143,7 +420,8 @@ namespace FinalProject
 
                 cmd.ExecuteNonQuery();
 
-                db.Close();
+                this.stats.Insert(db, this.phone_number);
+
                 return true;
             }
             catch
@@ -281,6 +559,15 @@ namespace FinalProject
                 {
                     // silent error.
                 }
+            }
+        }
+
+        public Stats Statistics
+        {
+            get { return this.stats; }
+            set
+            {
+               // |value|
             }
         }
 

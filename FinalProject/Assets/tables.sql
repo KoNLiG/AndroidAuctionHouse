@@ -72,6 +72,33 @@ CREATE TABLE IF NOT EXISTS `ah_images` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ah_stats`
+--
+
+CREATE TABLE IF NOT EXISTS `ah_stats` (
+  `phone` int(11) NOT NULL,
+
+  -- Buyer stats.
+  `auctions_won` int(11) NOT NULL DEFAULT 0,
+  `total_bids` int(11) NOT NULL DEFAULT 0,
+  `highest_bid` int(11) NOT NULL DEFAULT 0,
+  `coins_spent` int(11) NOT NULL DEFAULT 0,
+
+  -- Seller stats.
+  `auctions_created` int(11) NOT NULL DEFAULT 0,
+  `highest_auction_held` int(11) NOT NULL DEFAULT 0,
+  `auctions_completed_with_bids` int(11) NOT NULL DEFAULT 0,
+  `auctions_completed_without_bids` int(11) NOT NULL DEFAULT 0,
+  `total_coins_earned` int(11) NOT NULL DEFAULT 0,
+  `coins_spent_on_fees` int(11) NOT NULL DEFAULT 0,
+
+  PRIMARY KEY (`phone`),
+  FOREIGN KEY (`phone`) REFERENCES `ah_clients` (`phone`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Events
 --
 

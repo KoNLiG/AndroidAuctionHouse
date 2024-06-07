@@ -161,12 +161,18 @@ namespace FinalProject
             {
                 FetchBids();
             }
-
+            
             CountdownView time_left_countdown = FindViewById<CountdownView>(Resource.Id.timeLeftCountdown);
+            time_left_countdown.CountdownEnd += Time_left_countdown_CountdownEnd;
 
             // 'CountdownView:Start' function expects an "ms" input,
             // therefore we have to multiply the remaining time by 1000.
             time_left_countdown.Start(auction.RemainingTime * 1000);
+        }
+
+        private void Time_left_countdown_CountdownEnd(object sender, CountdownView.CountdownEndEventArgs e)
+        {
+            StartActivity(new Intent(this, typeof(MainActivity)));
         }
 
         private void Function_button_Click(object sender, EventArgs e)
@@ -227,7 +233,10 @@ namespace FinalProject
                 // Subtract coins from the buyer.
                 runtime_client.Coins -= auction.Value;
 
-                // Add coins to the owner.
+                // Update stats.
+                runtime_client.Statistics.AuctionsWon++;
+
+                // FIX: Add coins to the owner.
                 Client owner = new Client(auction.BuyerPhone);
                 if (owner != null)
                 {

@@ -65,7 +65,7 @@ namespace FinalProject
                 // silent error basically.
             }
         }
-
+        
         public void DisplayDialog()
         {
             dialog_phone_confirmation = new Dialog(context);

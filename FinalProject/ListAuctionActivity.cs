@@ -197,6 +197,9 @@ namespace FinalProject
                 // Charge the client with the appropriate tax.
                 int extra_fee = (value * Auction.FEE_PERCENT) / 100;
                 runtime_client.Coins -= extra_fee;
+
+                // Update stats.
+                runtime_client.Statistics.CoinsSpentOnFees += extra_fee;
             }
 
             SubmitButton button = (SubmitButton)sender;

@@ -245,6 +245,12 @@ namespace FinalProject
 
                     break;
                 }
+                case Resource.Id.nav_stats:
+                {
+                    context.StartActivity(new Intent(context, typeof(StatsActivity)));
+
+                    break;
+                }
                 case Resource.Id.nav_logout:
                 {
                     // Delete the current runtime client.
@@ -274,6 +280,7 @@ namespace FinalProject
                 case ListAuctionActivity list_auction: return Resource.Id.nav_listauction;
                 case AccountActivity account: return Resource.Id.nav_myaccount;
                 case AddFundsActivity addfunds: return Resource.Id.nav_addfunds;
+                case StatsActivity stats: return Resource.Id.nav_stats;
 
                 default: return 0;
             }
