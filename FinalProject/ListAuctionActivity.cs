@@ -199,7 +199,9 @@ namespace FinalProject
                 runtime_client.Coins -= extra_fee;
 
                 // Update stats.
+                runtime_client.Statistics.CoinsSpent += extra_fee;
                 runtime_client.Statistics.CoinsSpentOnFees += extra_fee;
+                runtime_client.Statistics.AuctionsCreated++;
             }
 
             SubmitButton button = (SubmitButton)sender;

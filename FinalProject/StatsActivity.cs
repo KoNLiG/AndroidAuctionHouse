@@ -20,8 +20,6 @@ namespace FinalProject
     {
         private NavigationMenu navigation_menu;
 
-        private RelativeLayout main_layout;
-
         private ToggleButton switch_mode_button;
         private TextView stats_tv;
 
@@ -32,11 +30,9 @@ namespace FinalProject
             // Create your application here
             SetContentView(Resource.Layout.activity_stats);
 
-            Title = "Add Funds";
+            Title = "Statistics";
             new BackgroundManager(this);
             navigation_menu = new NavigationMenu(this);
-
-            main_layout = FindViewById<RelativeLayout>(Resource.Id.mainLayout);
 
             FindViewById<TextView>(Resource.Id.textViewTitle).PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
 

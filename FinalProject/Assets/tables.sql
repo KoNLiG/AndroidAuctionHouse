@@ -107,8 +107,8 @@ ON SCHEDULE EVERY 1 SECOND
 DO 
   SELECT HandleExpiredAuctions();
 
-CREATE OR REPLACE FUNCTION HandleExpiredAuctions()
-RETURNS INT(1)
+-- If manually created via phpmyadmin, use delimiter!
+CREATE OR REPLACE FUNCTION `HandleExpiredAuctions`() RETURNS int(1)
 BEGIN
     DECLARE auction_id INT;
     DECLARE auction_owner INT;
@@ -144,20 +144,28 @@ BEGIN
             SET current_auction_id = auction_id;
             SET auction_count = 0;
         END IF;
-
-        IF auction_count = 0 THEN
-            UPDATE ah_clients
-            SET coins = coins + amount
-            WHERE phone = auction_owner;
-
+		
+		IF ISNULL(bidder) THEN
+			UPDATE `ah_stats` 
+			SET `auctions_completed_without_bids`= `auctions_completed_without_bids` + 1 
+			WHERE `phone` = auction_owner;
+		ELSEIF auction_count = 0 THEN
+			-- Very important and eseential line for 
+			-- the history feature to function properly.
             UPDATE ah_auctions
             SET buyer_phone = bidder
             WHERE id = auction_id;
-        ELSE 
-            UPDATE ah_clients
-            SET coins = coins + amount
-            WHERE phone = bidder;
-        END IF;
+			
+			-- Update stats.
+			UPDATE `ah_stats` 
+			SET `auctions_won`= `auctions_won` + 1 
+			WHERE `phone` = bidder;
+			
+			-- Update more stats.
+			UPDATE `ah_stats` 
+			SET `auctions_completed_with_bids`= `auctions_completed_with_bids` + 1 
+			WHERE `phone` = auction_owner;
+		END IF;
 
         SET auction_count = auction_count + 1;
         

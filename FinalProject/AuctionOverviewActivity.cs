@@ -235,12 +235,16 @@ namespace FinalProject
 
                 // Update stats.
                 runtime_client.Statistics.AuctionsWon++;
+                runtime_client.Statistics.CoinsSpent -= auction.Value;
 
                 // FIX: Add coins to the owner.
                 Client owner = new Client(auction.BuyerPhone);
                 if (owner != null)
                 {
                     owner.Coins += auction.Value;
+
+                    // Update stats.
+                    owner.Statistics.TotalCoinsEarned += auction.Value;
                 }
 
                 // Evacuate the client.
@@ -524,6 +528,25 @@ namespace FinalProject
             if ((auction.RemainingTime / 60) <= 0)
             {
                 auction.EndTime += Auction.EXTEND_SECONDS;
+            }
+
+            // Update stats.
+            runtime_client.Statistics.TotalBids++;
+
+            // The client just broke his highest bid record,
+            // update it!
+            if (value > runtime_client.Statistics.HighestBid)
+            {
+                runtime_client.Statistics.HighestBid = value;
+            }
+
+            runtime_client.Statistics.CoinsSpent += take_amount;
+
+            // Still updating stats!
+            Client auction_owner = new Client(auction.OwnerPhone);
+            if (auction_owner != null && auction_owner.Statistics.HighestAuctionHeld < value)
+            {
+                auction_owner.Statistics.HighestAuctionHeld = value;
             }
 
             SubmitButton button = (SubmitButton)sender;
