@@ -239,7 +239,7 @@
     <AndroidResource Include="Resources\drawable-v21\ic_menu_ah.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\tables.sql" />
+    <AndroidAsset Include="Assets\db.sql" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\ic_menu_listauction.xml" />

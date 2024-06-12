@@ -235,7 +235,7 @@ namespace FinalProject
 
                 // Update stats.
                 runtime_client.Statistics.AuctionsWon++;
-                runtime_client.Statistics.CoinsSpent -= auction.Value;
+                runtime_client.Statistics.CoinsSpent += auction.Value;
 
                 // FIX: Add coins to the owner.
                 Client owner = new Client(auction.BuyerPhone);
@@ -532,7 +532,7 @@ namespace FinalProject
 
             // Update stats.
             runtime_client.Statistics.TotalBids++;
-
+            
             // The client just broke his highest bid record,
             // update it!
             if (value > runtime_client.Statistics.HighestBid)

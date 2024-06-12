@@ -179,6 +179,8 @@ namespace FinalProject
                 snackbar.Show();
 
                 PopulatePageData();
+
+                navigation_menu.SetTitles();
             }
         }
 

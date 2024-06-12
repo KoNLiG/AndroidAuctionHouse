@@ -38,6 +38,8 @@ namespace FinalProject
         private AutoCompleteTextView amount_tv;
         private SubmitButton add_button;
 
+        private bool processing_request;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -160,6 +162,12 @@ namespace FinalProject
         // (in-case of input error)
         private void Add_button_Touch(object sender, View.TouchEventArgs e)
         {
+            // Don't overload!
+            if (processing_request)
+            {
+                return;
+            }
+
             if (e.Event.Action != MotionEventActions.Up)
             {
                 e.Handled = false;
@@ -223,8 +231,10 @@ namespace FinalProject
 
             SubmitButton button = (SubmitButton)sender;
 
-            button.Touch -= Add_button_Touch;
+            // Temporarily remove the button hook to avoid overload.
             button.Click -= Add_button_Click;
+
+            processing_request = true;
 
             button.PostDelayed(() => {
                 DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -234,6 +244,11 @@ namespace FinalProject
                 }
 
                 Helper.FireInputError(this, (ViewGroup)(navigation_menu.GetHeader()), navigation_menu.GetBalanceView(), $"Added {value.ToString("N0")} coins!");
+
+                // Reapply the button hook.
+                button.Click += Add_button_Click;
+
+                processing_request = false;
             }, 2300); // 2300ms for the animation duration. (see the layout)
         }
 

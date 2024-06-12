@@ -145,7 +145,7 @@ namespace FinalProject
             logout_item.SetTitle(spanString);
         }
 
-        private void SetTitles()
+        public void SetTitles()
         {
             TextView tv_name = GetNameView();
             TextView tv_phone = GetPhoneView();
@@ -230,6 +230,12 @@ namespace FinalProject
                 case Resource.Id.nav_listauction:
                 {
                     context.StartActivity(new Intent(context, typeof(ListAuctionActivity)));
+
+                    break;
+                }
+                case Resource.Id.nav_manageauctions:
+                {
+                    // context.StartActivity(new Intent(context, typeof(ListAuctionActivity)));
 
                     break;
                 }

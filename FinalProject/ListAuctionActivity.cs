@@ -204,6 +204,9 @@ namespace FinalProject
                 runtime_client.Statistics.AuctionsCreated++;
             }
 
+            // Clear unrelevant images.
+            AddImageAdapter.images.Clear();
+
             SubmitButton button = (SubmitButton)sender;
 
             button.Touch -= Create_button_Touch;

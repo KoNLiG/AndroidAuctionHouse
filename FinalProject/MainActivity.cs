@@ -100,8 +100,8 @@ namespace FinalProject
 
             HandlePermissions();
 
-            // Create tables.
-            CreateDBTables();
+            // Setup database (create tables, events, functions, and override globals).
+            SetupDatabase();
 
             RuntimeClient.Load(this);
 
@@ -222,13 +222,12 @@ namespace FinalProject
             DisplayImagesDialog(this, auction);
         }
 
-        private void CreateDBTables()
+        private void SetupDatabase()
         {
             MySqlConnection db = Helper.DB.ConnectDatabase();
 
-            // Setup an input stream to read the table
-            // script asset.
-            Stream stream = Assets.Open("tables.sql");
+            // Setup an input stream to read the database script asset.
+            Stream stream = Assets.Open("db.sql");
             StreamReader reader = new StreamReader(stream);
 
             // Execute the script. (an import basically)

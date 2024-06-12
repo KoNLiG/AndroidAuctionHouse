@@ -26,29 +26,36 @@
 			android:icon="@drawable/ic_menu_listauction"
 			android:title="1|List an Auction"/>
 		<item
-			android:id="@+id/nav_myaccount"
-			android:icon="@drawable/ic_menu_myaccount"
-			android:title="1|My Account"/>
+			android:id="@+id/nav_manageauctions"
+			android:icon="@android:drawable/ic_delete"
+			android:title="1|Manage Auctions"/>
 		<item
-			android:id="@+id/nav_addfunds"
-			android:icon="@android:drawable/ic_menu_add"
-			android:title="1|Add Funds"/>
-
-		<item
-			android:id="@+id/nav_stats"
-			android:icon="@android:drawable/ic_menu_sort_by_size"
-			android:title="1|Statistics"/>
-
-		<!-- ic_menu_sort_by_size for statistics!!-->
+			android:id="@+id/nav_managebids"
+			android:icon="@android:drawable/ic_delete"
+			android:title="1|Manage Bids"/>
     </group>
 
-	<item android:title="User Settings" android:id="@+id/nav_usercontrol">
+	<item android:title="User Control" android:id="@+id/nav_usercontrol">
 		<menu>
-			<item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_logout"
-                android:title="1|Log Out"/>
+			<group android:checkableBehavior="single">
+				<item
+					android:id="@+id/nav_myaccount"
+					android:icon="@drawable/ic_menu_myaccount"
+					android:title="1|My Account"/>
+				<item
+					android:id="@+id/nav_addfunds"
+					android:icon="@android:drawable/ic_menu_add"
+					android:title="1|Add Funds"/>
+
+				<item
+					android:id="@+id/nav_stats"
+					android:icon="@android:drawable/ic_menu_sort_by_size"
+					android:title="1|Statistics"/>
+				<item
+					android:id="@+id/nav_logout"
+					android:icon="@drawable/ic_menu_logout"
+					android:title="1|Log Out"/>
+			</group>
 		</menu>
 	</item>
-
 </menu>
