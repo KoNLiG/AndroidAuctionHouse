@@ -83,6 +83,7 @@
     <Compile Include="ListAuctionActivity.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="ManageAuctionsActivity.cs" />
     <Compile Include="NavigationMenu.cs" />
     <Compile Include="ParamValidation.cs" />
     <Compile Include="PhoneConfirmation.cs" />
@@ -325,6 +326,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\content_stats.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_manageauctions.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\content_manageauctions.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

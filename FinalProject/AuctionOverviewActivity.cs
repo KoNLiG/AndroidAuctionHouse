@@ -4,6 +4,8 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using CN.Iwgang.Countdownview;
@@ -70,8 +72,6 @@ namespace FinalProject
                 return;
             }
 
-            PopulatePageData(auction);
-
             Client runtime_client = RuntimeClient.Get();
 
             function_button = FindViewById<Button>(Resource.Id.functionButton);
@@ -88,10 +88,12 @@ namespace FinalProject
             // 1. Owners aren't matching.
             // 2. The item type is an "auction" and it has ATLEAST 1 bid.
 
-            if(runtime_client != auction.OwnerPhone || auction.Bids != null)
+            if (runtime_client != auction.OwnerPhone || auction.Bids != null)
             {
                 Helper.SetButtonState(this, cancel_button, false);
             }
+
+            PopulatePageData(auction, runtime_client);
         }
 
         protected override void OnResume()
@@ -106,7 +108,7 @@ namespace FinalProject
                 return;
             }
 
-            PopulatePageData(auction);
+            PopulatePageData(auction, RuntimeClient.Get());
         }
 
         // Called once the user has triggered the "back" operation by left swiping, etc..
@@ -116,7 +118,7 @@ namespace FinalProject
             navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
-        private void PopulatePageData(Auction auction)
+        private void PopulatePageData(Auction auction, Client runtime_client)
         {
             FindViewById<TextView>(Resource.Id.textViewTitle).PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
             // -------------------------
@@ -131,12 +133,29 @@ namespace FinalProject
             title_tv.Text = $"╭ {auction.ItemName}\n╰┄ {coins_prefix}{coins.ToString("N0")} coins";
 
             Client owner = (auction.OwnerPhone != 0 ? new Client(auction.OwnerPhone) : null);
-            string owner_name = $"◾ Seller: " + (owner != null ? $"{owner.FirstName} {owner.LastName}" : "Unavailable");
+
+            string owner_name = "";
+            if (auction.OwnerPhone == runtime_client.PhoneNumber)
+            {
+                owner_name = "This is your own auction!";
+            }
+            else
+            {
+                owner_name = $"◾ Seller: " + (owner != null ? $"{owner.FirstName} {owner.LastName}" : "Unavailable");
+            }
 
             string description = string.IsNullOrEmpty(auction.ItemDescription) ? "No description available" : auction.ItemDescription;
 
+            SpannableString spannableText = new SpannableString($"{owner_name}\n\n{description}");
+
+            // Color in green if this is our own auction!
+            if (auction.OwnerPhone == runtime_client.PhoneNumber)
+            {
+                spannableText.SetSpan(new ForegroundColorSpan(new Color(144, 238, 144)), 0, owner_name.Length, 0);
+            }
+
             TextView item_desc_tv = FindViewById<TextView>(Resource.Id.itemDescText);
-            item_desc_tv.Text = $"{owner_name}\n\n{description}";
+            item_desc_tv.TextFormatted = spannableText;
 
             Gallery images_gallery = FindViewById<Gallery>(Resource.Id.imagesGallerys);
             images_gallery.Adapter = new StaticImageAdapter(this, auction.Images);
@@ -149,25 +168,116 @@ namespace FinalProject
                 images_gallery.ItemClick += Images_gallery_ItemClick;
             }
 
+            TextView bids_title_tv = FindViewById<TextView>(Resource.Id.bidsTitle);
             bids_list_view = FindViewById<ListView>(Resource.Id.bidsListView);
 
             // Hide any bid features if the auction type is bin. (non bids related sale)
             if (auction.Type == AuctionType.BIN)
             {
                 bids_list_view.Visibility = ViewStates.Invisible;
-                FindViewById<TextView>(Resource.Id.bidsTitle).Visibility = ViewStates.Invisible;
+                bids_title_tv.Visibility = ViewStates.Invisible;
             }
             else
             {
-                FetchBids();
+                FetchBids(auction.Status != AuctionStatus.Running);
             }
-            
-            CountdownView time_left_countdown = FindViewById<CountdownView>(Resource.Id.timeLeftCountdown);
-            time_left_countdown.CountdownEnd += Time_left_countdown_CountdownEnd;
 
-            // 'CountdownView:Start' function expects an "ms" input,
-            // therefore we have to multiply the remaining time by 1000.
-            time_left_countdown.Start(auction.RemainingTime * 1000);
+            CountdownView time_left_countdown = FindViewById<CountdownView>(Resource.Id.timeLeftCountdown);
+            if (time_left_countdown != null)
+            {
+                time_left_countdown.CountdownEnd += Time_left_countdown_CountdownEnd;
+
+                // 'CountdownView:Start' function expects an "ms" input,
+                // therefore we have to multiply the remaining time by 1000.
+                time_left_countdown.Start(auction.RemainingTime * 1000);
+            }
+
+            // Handle "Manage Auctions" referals.
+            if (auction.Status != AuctionStatus.Running)
+            {
+                // Remove the cancel button.
+                if (cancel_button != null)
+                {
+                    ((ViewGroup)cancel_button.Parent).RemoveView(cancel_button);
+                    cancel_button = null;
+                }
+
+                // Remove the countdown timer.
+                if (time_left_countdown != null)
+                {
+                    ((ViewGroup)time_left_countdown.Parent).RemoveView(time_left_countdown);
+                }
+
+                // Fix "below" rule.
+                LinearLayout buttons_layout = FindViewById<LinearLayout>(Resource.Id.buttonsLayout);
+
+                RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+                layout_params.AddRule(LayoutRules.Below, Resource.Id.countdownTitle);
+
+                buttons_layout.LayoutParameters = layout_params;
+
+                TextView countdown_title_tv = FindViewById<TextView>(Resource.Id.countdownTitle);
+
+                DateTimeOffset dt_offset = DateTimeOffset.FromUnixTimeSeconds(auction.EndTime);
+                countdown_title_tv.Text = $"Ended at: {dt_offset.ToString("dd/MM/yyy - HH:mm:ss")}";
+
+                // Display the buyer contact info. IF BIN
+                if (auction.Type == AuctionType.BIN)
+                {
+                    if (auction.BuyerPhone == 0)
+                    {
+                        countdown_title_tv.Text += "\n\nSold to: No one :(";
+                    }
+                    else
+                    {
+                        Client buyer = new Client(auction.BuyerPhone);
+
+                        countdown_title_tv.Text += $"\n\nSold to: {buyer.FirstName} {buyer.LastName} [0{buyer.PhoneNumber}]";
+                    }
+                }
+
+                bids_title_tv.Text = "bid history";
+
+                // True if this is the owner and the owner haven't collected the auction.
+                if (auction.OwnerPhone == runtime_client.PhoneNumber && !auction.OwnerAcknowledged)
+                {
+                    // Handle the "collect" button.
+                    function_button.Text = auction.BuyerPhone == 0 ? "Dismiss Auction" : "Collect Auction";
+                    function_button.Click -= Function_button_Click;
+                    function_button.Click += Collect_button_Click;
+
+                    Helper.SetButtonState(this, function_button, true);
+                }
+                // True if this is the buyer and the buyer haven't acknowledged the auction.
+                else if (auction.BuyerPhone == runtime_client.PhoneNumber && !auction.BuyerAcknowledged)
+                {
+                    // Handle the "collect" button.
+                    function_button.Text = "Dismiss Auction";
+                    function_button.Click -= Function_button_Click;
+                    function_button.Click += Collect_button_Click;
+
+                    Helper.SetButtonState(this, function_button, true);
+
+                    item_desc_tv.Text += $"\nContact info: 0{owner.PhoneNumber}";
+                }
+                else
+                {
+                    // Remove the function button.
+                    if (function_button != null)
+                    {
+                        ((ViewGroup)function_button.Parent).RemoveView(function_button);
+                        function_button = null;
+                    }
+                }
+
+                // If we're the buyer, only display the relevant data TO US.
+                if (auction.BuyerPhone == runtime_client.PhoneNumber)
+                {
+                    List<Bid> bids = new List<Bid>();
+                    bids.Add(auction.Bids[0]);
+                    bids_list_view.Adapter = new BidAdapter(this, bids);
+                }
+            }
         }
 
         private void Time_left_countdown_CountdownEnd(object sender, CountdownView.CountdownEndEventArgs e)
@@ -236,16 +346,6 @@ namespace FinalProject
                 // Update stats.
                 runtime_client.Statistics.AuctionsWon++;
                 runtime_client.Statistics.CoinsSpent += auction.Value;
-
-                // FIX: Add coins to the owner.
-                Client owner = new Client(auction.BuyerPhone);
-                if (owner != null)
-                {
-                    owner.Coins += auction.Value;
-
-                    // Update stats.
-                    owner.Statistics.TotalCoinsEarned += auction.Value;
-                }
 
                 // Evacuate the client.
                 StartActivity(new Intent(this, typeof(MainActivity)));
@@ -316,7 +416,7 @@ namespace FinalProject
         }
 
         // Loads all bids.
-        private void FetchBids()
+        private void FetchBids(bool ended = false)
         {
             MySqlConnection db = Helper.DB.ConnectDatabase();
 
@@ -340,14 +440,13 @@ namespace FinalProject
                     long bid_time = reader.GetInt64("bid_time");
                     bool legacy_bid = reader.GetBoolean("legacy_bid");
 
-
                     bids.Add(new Bid(bid_row_id, bidder_phone, value, bid_time, legacy_bid));
                 }
             }
-            
+
             db.Close();
 
-            bids_list_view.Adapter = new BidAdapter(this, bids);
+            bids_list_view.Adapter = new BidAdapter(this, bids, ended);
         }
 
         private bool CanAffordAuction(Auction auction, Client runtime_client)
@@ -388,7 +487,7 @@ namespace FinalProject
             {
                 bid_layout.HelperText = $"* Minimum value for outbidding is {top_bid.OutBid.ToString("N0")} coins";
             }
-            else 
+            else
             {
                 bid_layout.HelperText = $"* Starting bid is {auction.Value.ToString("N0")} coins";
             }
@@ -434,7 +533,7 @@ namespace FinalProject
                 bid_layout.Error = "Please enter your desired bid";
                 return;
             }
-            
+
             // Firstly validate the input.
             Bid top_bid = auction.FindTopBid();
             if (top_bid != null)
@@ -480,7 +579,7 @@ namespace FinalProject
                 bid_layout.Error = $"You are missing coins to place your bid (missing {(input_value - runtime_client.Coins).ToString("N0")} coins)";
                 return;
             }
-            
+
             // All checks passed.
             e.Handled = false;
         }
@@ -532,7 +631,7 @@ namespace FinalProject
 
             // Update stats.
             runtime_client.Statistics.TotalBids++;
-            
+
             // The client just broke his highest bid record,
             // update it!
             if (value > runtime_client.Statistics.HighestBid)
@@ -554,7 +653,8 @@ namespace FinalProject
             button.Touch -= Place_button_Touch;
             button.Click -= Place_button_Click;
 
-            button.PostDelayed(() => {
+            button.PostDelayed(() =>
+            {
                 // Refresh the page.
                 OnResume();
 
@@ -571,6 +671,64 @@ namespace FinalProject
             }
 
             e.Handled = false;
+        }
+
+        private void Collect_button_Click(object sender, EventArgs e)
+        {
+            Auction auction = new Auction(auction_id);
+            if (auction.RowId == 0)
+            {
+                // Shouldn't really happen.
+                return;
+            }
+
+            // Retrieve and validate the runtime client.
+            Client runtime_client = RuntimeClient.Get();
+            if (runtime_client == null)
+            {
+                // Evacuate the client.
+                StartActivity(new Intent(this, typeof(MainActivity)));
+                FinishAffinity();
+
+                // Notify the client.
+                Toast.MakeText(this, "Failed to authorize your account.", ToastLength.Long).Show();
+                return;
+            }
+
+            // Give the owner money!
+            if (auction.OwnerPhone == runtime_client.PhoneNumber && !auction.OwnerAcknowledged)
+            {
+                // Only give money if the auction was bought!
+                if (auction.BuyerPhone != 0)
+                {
+                    int coins;
+
+                    if (auction.Type == AuctionType.BIN)
+                    {
+                        coins = auction.Value;
+                    }
+                    else // Regular auction.
+                    {
+                        Bid top_bid = auction.FindTopBid();
+
+                        coins = top_bid.Value;
+                    }
+
+                    runtime_client.Coins += coins;
+                    // Update stats.
+                    runtime_client.Statistics.TotalCoinsEarned += coins;
+                }
+
+                auction.OwnerAcknowledged = true;
+            }
+            // Do practically nothing?
+            else if (auction.BuyerPhone == runtime_client.PhoneNumber && !auction.BuyerAcknowledged)
+            {
+                auction.BuyerAcknowledged = true;
+            }
+
+            // Evacuate the client to the manage auctions page.
+            StartActivity(new Intent(this, typeof(ManageAuctionsActivity)));
         }
     }
 }

@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `ah_auctions` (
   `value` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
+  `owner_acknowledged` int(1) NOT NULL DEFAULT 0,
+  `buyer_acknowledged` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`owner_phone`) REFERENCES `ah_clients` (`phone`) ON DELETE SET NULL ON UPDATE CASCADE,
   FOREIGN KEY (`buyer_phone`) REFERENCES `ah_clients` (`phone`) ON DELETE SET NULL ON UPDATE CASCADE

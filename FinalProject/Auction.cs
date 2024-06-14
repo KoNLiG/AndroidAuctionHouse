@@ -189,8 +189,11 @@ namespace FinalProject
 		// Auction status. See the enum above.
 		private AuctionStatus status;
 
-		// Temporary value to store the duration recieved in the constructor.
-		private int temp_duration;
+		// Whether owner/buyer acknowledged the end
+		// result/outcome of this auction.
+		// Used to claim rewards/money/notifications.
+		private bool owner_acknowledged;
+		private bool buyer_acknowledged;
 
 		// Custom images that the owner has uploaded.
 		// Will be null if 0 images were uploaded.
@@ -200,8 +203,12 @@ namespace FinalProject
         // Will be null if 0 bids were found.
         private List<Bid> bids;
 
-		// Timer handle of the cancel function.
-		// Handle end_timer;
+		// Temporary value to store the duration recieved in the constructor.
+		private int temp_duration;
+
+		// Flag for whether this auction
+		// is associated with the manage auctions page.
+		private bool is_manage;
 
 		// Constructor. Initializes a new auction. (used for creating and listing a new auctions)
 		// 'duration' is minutes represented.
@@ -215,6 +222,8 @@ namespace FinalProject
 			this.type = type;
 		}
 
+		// MAIN PAGE CONSTRUCTOR.
+		//
 		// Used after loading all auctions from database, 
 		// and displaying them all via a ListView object.
 		// 'base64_image' will be the first image uploaded, 
@@ -225,6 +234,31 @@ namespace FinalProject
 			this.item_name = item_name;
 			this.value = value;
 			this.type = type;
+
+			// Convert and add the base64 image. (if applicable)
+			if (!string.IsNullOrEmpty(base64_image))
+			{
+				this.images = new List<Bitmap>();
+				this.images.Add(Helper.Base64ToBitmap(base64_image));
+			}
+		}
+
+		// MANAGE AUCTIONS CONSTRUCTOR. 
+		//
+		// Used after loading all auctions from database, 
+		// and displaying them all via a ListView object.
+		// 'base64_image' will be the first image uploaded, 
+		// or an empty string if unavailable.
+		public Auction(int row_id, int owner_phone, int buyer_phone, string item_name, AuctionType type, AuctionStatus status, bool owner_acknowledged, bool buyer_acknowledged, string base64_image)
+		{
+			this.row_id = row_id;
+			this.owner_phone = owner_phone;
+			this.buyer_phone = buyer_phone;
+			this.item_name = item_name;
+			this.type = type;
+			this.status = status;
+			this.owner_acknowledged = owner_acknowledged;
+			this.buyer_acknowledged = buyer_acknowledged;
 
 			// Convert and add the base64 image. (if applicable)
 			if (!string.IsNullOrEmpty(base64_image))
@@ -282,7 +316,9 @@ namespace FinalProject
 					this.value = reader.GetInt32("value");
 					this.type = (AuctionType)reader.GetInt32("type");
                     this.status = (AuctionStatus)reader.GetInt32("status");
-                }
+                    this.owner_acknowledged = reader.GetBoolean("owner_acknowledged");
+                    this.buyer_acknowledged = reader.GetBoolean("buyer_acknowledged");
+				}
 			}
 
 			// Secondly - fetch all the auction images. (with maximum of 'Auction.MAX_ACTIVE_AUCTIONS')
@@ -595,6 +631,48 @@ namespace FinalProject
             }
         }
 
+		public bool OwnerAcknowledged
+		{
+			get { return this.owner_acknowledged; }
+			set
+			{
+				try
+				{
+					MySqlConnection db = Helper.DB.ConnectDatabase();
+
+					MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.AUCTIONS_TBL_NAME}` SET `owner_acknowledged` = {value} WHERE `id` = {row_id}", db);
+					cmd.ExecuteNonQuery();
+
+					db.Close();
+				}
+				catch
+				{
+					// silent error.
+				}
+			}
+		}
+
+		public bool BuyerAcknowledged
+		{
+			get { return this.buyer_acknowledged; }
+			set
+			{
+				try
+				{
+					MySqlConnection db = Helper.DB.ConnectDatabase();
+
+					MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.AUCTIONS_TBL_NAME}` SET `buyer_acknowledged` = {value} WHERE `id` = {row_id}", db);
+					cmd.ExecuteNonQuery();
+
+					db.Close();
+				}
+				catch
+				{
+					// silent error.
+				}
+			}
+		}
+
 		public List<Bitmap> Images
 		{
 			get { return this.images; }
@@ -605,6 +683,12 @@ namespace FinalProject
 		{
 			get { return this.bids; }
 			set { this.bids = value; }
+		}
+
+		public bool IsManage
+		{
+			get { return this.is_manage; }
+			set { this.is_manage = value; }
 		}
 	}
 }

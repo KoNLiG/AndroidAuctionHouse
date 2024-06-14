@@ -16,10 +16,13 @@ namespace FinalProject
         Context context;
         private List<Bid> bids;
 
-        public BidAdapter(Context c, List<Bid> bids)
+        private bool ended;
+
+        public BidAdapter(Context c, List<Bid> bids, bool ended = false)
         {
             context = c;
             this.bids = bids;
+            this.ended = ended;
         }
 
         public override int Count 
@@ -66,9 +69,18 @@ namespace FinalProject
             if (bids.Count == 0)
             {
                 View empty_bid_layout = ((Activity)context).LayoutInflater.Inflate(Resource.Layout.bid_layout, parent, false);
-
+                
                 TextView empty_text = empty_bid_layout.FindViewById<TextView>(Resource.Id.bidderNameText);
-                empty_text.Text = "No bids were found, be the first!";
+
+                if (this.ended)
+                {
+                    empty_text.Text = "No bids have been placed on this auction :(";
+                    empty_text.TextSize = 18;
+                }
+                else
+                {
+                    empty_text.Text = "No bids were found, be the first!";
+                }
 
                 return empty_bid_layout;
             }

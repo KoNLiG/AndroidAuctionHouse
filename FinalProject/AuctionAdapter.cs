@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -17,10 +18,14 @@ namespace FinalProject
         Context context;
         private List<Auction> auctions;
 
-        public AuctionAdapter(Context c, List<Auction> auctions)
+        // Temp value. Only used in manage auctions.
+        private int runtime_client_phone;
+
+        public AuctionAdapter(Context c, List<Auction> auctions, int runtime_client_phone = 0)
         {
             context = c;
             this.auctions = auctions;
+            this.runtime_client_phone = runtime_client_phone;
         }
 
         public override int Count 
@@ -98,13 +103,53 @@ namespace FinalProject
 
             item_name.Text = current_auction.ItemName;
 
-            Bid top_bid = current_auction.FindTopBid();
+            string item_value_str = "";
 
-            item_value_desc.Text = current_auction.Type == AuctionType.BIN ? "Price" : top_bid == null ? "Starting bid" : "Top bid";
+            // Regular auction appearance. (main page)
+            if (!current_auction.IsManage)
+            {
+                Bid top_bid = current_auction.FindTopBid();
+                item_value_desc.Text = current_auction.Type == AuctionType.BIN ? "Price" : top_bid == null ? "Starting bid" : "Top bid";
+                int coins = current_auction.Type == AuctionType.BIN ? current_auction.Value : top_bid == null ? current_auction.Value : top_bid.Value;
 
-            int coins = current_auction.Type == AuctionType.BIN ? current_auction.Value : top_bid == null ? current_auction.Value : top_bid.Value;
+                item_value_str = coins.ToString("N0");
+            }
+            // "Manage auctions" appearance.
+            else
+            {
+                if (current_auction.Status != AuctionStatus.Running)
+                {
+                    // Auction is unacknowledged!
+                    if ((current_auction.OwnerPhone == runtime_client_phone && !current_auction.OwnerAcknowledged) 
+                        || (current_auction.BuyerPhone == runtime_client_phone && !current_auction.BuyerAcknowledged))
+                    {
+                        item_value_str = "Unclaimed";
+                        item_value.SetTextColor(new Color(255, 103, 0));
+                    }
+                    // Auction isn't running and acknowledged!
+                    else
+                    {
+                        item_value_str = "Ended";
+                        item_value.SetTextColor(new Color(255, 127, 127));
+                    }
+                }
+                // Auction is running!
+                else
+                {
+                    item_value_str = "Running";
+                    item_value.SetTextColor(new Color(50, 205, 50));
+                }
 
-            item_value.Text = coins.ToString("N0");
+                LinearLayout layout = new_auction_layout.FindViewById<LinearLayout>(Resource.Id.valueLayout);
+                layout.SetGravity(GravityFlags.Right);
+
+                RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+                layout_params.SetMargins(0, 0, 25, 0);
+                layout.LayoutParameters = layout_params;
+            }
+
+            item_value.Text = item_value_str;
+
             item_value.PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
 
             return new_auction_layout;

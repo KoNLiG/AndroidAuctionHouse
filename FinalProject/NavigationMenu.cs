@@ -235,7 +235,19 @@ namespace FinalProject
                 }
                 case Resource.Id.nav_manageauctions:
                 {
-                    // context.StartActivity(new Intent(context, typeof(ListAuctionActivity)));
+                    context.StartActivity(new Intent(context, typeof(ManageAuctionsActivity)));
+
+                    break;
+                }
+                case Resource.Id.nav_managebids:
+                {
+                    // context.StartActivity(new Intent(context, typeof(ManageBidsActivity)));
+
+                    break;
+                }
+                case Resource.Id.nav_stats:
+                {
+                    context.StartActivity(new Intent(context, typeof(StatsActivity)));
 
                     break;
                 }
@@ -248,12 +260,6 @@ namespace FinalProject
                 case Resource.Id.nav_addfunds:
                 {
                     context.StartActivity(new Intent(context, typeof(AddFundsActivity)));
-
-                    break;
-                }
-                case Resource.Id.nav_stats:
-                {
-                    context.StartActivity(new Intent(context, typeof(StatsActivity)));
 
                     break;
                 }
@@ -284,9 +290,11 @@ namespace FinalProject
                 case AuctionOverviewActivity auction: return Resource.Id.nav_ah; 
                 case LoginActivity login:return Resource.Id.nav_login;
                 case ListAuctionActivity list_auction: return Resource.Id.nav_listauction;
+                case ManageAuctionsActivity manage_auctions: return Resource.Id.nav_manageauctions;
+                // case ManageBidsActivity manage_bids: return Resource.Id.nav_managebids;
+                case StatsActivity stats: return Resource.Id.nav_stats;
                 case AccountActivity account: return Resource.Id.nav_myaccount;
                 case AddFundsActivity addfunds: return Resource.Id.nav_addfunds;
-                case StatsActivity stats: return Resource.Id.nav_stats;
 
                 default: return 0;
             }

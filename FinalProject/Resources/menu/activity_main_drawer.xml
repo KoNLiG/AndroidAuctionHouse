@@ -27,12 +27,16 @@
 			android:title="1|List an Auction"/>
 		<item
 			android:id="@+id/nav_manageauctions"
-			android:icon="@android:drawable/ic_delete"
+			android:icon="@drawable/mode"
 			android:title="1|Manage Auctions"/>
 		<item
 			android:id="@+id/nav_managebids"
-			android:icon="@android:drawable/ic_delete"
+			android:icon="@drawable/mode"
 			android:title="1|Manage Bids"/>
+		<item
+			android:id="@+id/nav_stats"
+			android:icon="@android:drawable/ic_menu_sort_by_size"
+			android:title="1|Statistics"/>
     </group>
 
 	<item android:title="User Control" android:id="@+id/nav_usercontrol">
@@ -46,11 +50,6 @@
 					android:id="@+id/nav_addfunds"
 					android:icon="@android:drawable/ic_menu_add"
 					android:title="1|Add Funds"/>
-
-				<item
-					android:id="@+id/nav_stats"
-					android:icon="@android:drawable/ic_menu_sort_by_size"
-					android:title="1|Statistics"/>
 				<item
 					android:id="@+id/nav_logout"
 					android:icon="@drawable/ic_menu_logout"
