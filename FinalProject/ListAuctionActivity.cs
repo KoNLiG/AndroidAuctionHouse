@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Content;
@@ -211,6 +212,9 @@ namespace FinalProject
 
             button.Touch -= Create_button_Touch;
             button.Click -= Create_button_Click;
+
+            MediaPlayer mp = MediaPlayer.Create(this, Resource.Raw.firework);
+            mp.Start();
 
             button.PostDelayed(() => {
                 // Transfer the client to the item page.

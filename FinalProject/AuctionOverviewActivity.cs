@@ -40,7 +40,7 @@ namespace FinalProject
         // Properties related to the bid setup.
         private Dialog dialog_bid;
         private TextInputLayout bid_layout;
-
+        
         // Auction object filled with the data of 'auction_id'.
         //private Auction auction;
 
