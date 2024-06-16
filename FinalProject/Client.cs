@@ -108,6 +108,8 @@ namespace FinalProject
                 get { return this.auctions_won; }
                 set
                 {
+                    this.auctions_won = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -129,6 +131,8 @@ namespace FinalProject
                 get { return this.total_bids; }
                 set
                 {
+                    this.total_bids = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -150,6 +154,8 @@ namespace FinalProject
                 get { return this.highest_bid; }
                 set
                 {
+                    this.highest_bid = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -171,6 +177,8 @@ namespace FinalProject
                 get { return this.coins_spent; }
                 set
                 {
+                    this.coins_spent = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -192,6 +200,8 @@ namespace FinalProject
                 get { return this.auctions_created; }
                 set
                 {
+                    this.auctions_created = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -227,6 +237,8 @@ namespace FinalProject
                 get { return this.highest_auction_held; }
                 set
                 {
+                    this.highest_auction_held = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -248,6 +260,8 @@ namespace FinalProject
                 get { return this.total_coins_earned; }
                 set
                 {
+                    this.total_coins_earned = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -269,6 +283,8 @@ namespace FinalProject
                 get { return this.coins_spent_on_fees; }
                 set
                 {
+                    this.coins_spent_on_fees = value;
+
                     try
                     {
                         MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -454,6 +470,8 @@ namespace FinalProject
             get { return this.phone_number; }
             set 
             {
+                this.phone_number = value;
+
                 try
                 {
                     MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -475,6 +493,8 @@ namespace FinalProject
             get { return this.first_name; }
             set
             {
+                this.first_name = value;
+
                 try
                 {
                     MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -497,6 +517,8 @@ namespace FinalProject
             get { return this.last_name; }
             set
             {
+                this.last_name = value;
+
                 try
                 {
                     MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -527,6 +549,8 @@ namespace FinalProject
                     // remain inside the "try" bracket in-case it fails.
                     string password_hash = BC.HashPassword(value);
 
+                    this.password = password_hash;
+
                     MySqlConnection db = Helper.DB.ConnectDatabase();
 
                     MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.CLIENTS_TBL_NAME}` SET `password` = {password_hash} WHERE `phone` = {phone_number}", db);
@@ -546,6 +570,8 @@ namespace FinalProject
             get { return this.coins; }
             set
             {
+                this.coins = value;
+
                 try
                 {
                     MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -565,10 +591,6 @@ namespace FinalProject
         public Stats Statistics
         {
             get { return this.stats; }
-            set
-            {
-               // |value|
-            }
         }
 
         // Retrieves the amount of active auctions this client currently have.

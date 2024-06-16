@@ -429,6 +429,7 @@ namespace FinalProject
                 while (reader.Read())
                 {
                     long bid_row_id = reader.GetInt32("id");
+                    long auction_id = reader.GetInt32("auction_id");
 
                     int bidder_phone = 0;
                     if (!reader.IsDBNull(reader.GetOrdinal("bidder_phone")))
@@ -440,7 +441,7 @@ namespace FinalProject
                     long bid_time = reader.GetInt64("bid_time");
                     bool legacy_bid = reader.GetBoolean("legacy_bid");
 
-                    bids.Add(new Bid(bid_row_id, bidder_phone, value, bid_time, legacy_bid));
+                    bids.Add(new Bid(bid_row_id, auction_id, bidder_phone, value, bid_time, legacy_bid));
                 }
             }
 

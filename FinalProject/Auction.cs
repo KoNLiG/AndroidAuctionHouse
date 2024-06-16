@@ -35,6 +35,9 @@ namespace FinalProject
 		// Database unique row id. Used as an identifier to this specific bid.
 		private long row_id;
 
+		// Row id of the auction this bid is associated with.
+		private long auction_id;
+
 		// Phone number identifier of the user who issued this bid.
 		private int bidder_phone;
 
@@ -47,14 +50,19 @@ namespace FinalProject
 		// Whether this bid data is only saved for lagacy reasons. (history)
 		private bool legacy_bid;
 
+		// Whether the bid issuer achnowledged the bid outcome and result.
+		private bool bidder_acknowledged;
+
 		// Constructor.
-		public Bid(long row_id, int bidder_phone, int value, long bid_time, bool legacy_bid)
+		public Bid(long row_id, long auction_id, int bidder_phone, int value, long bid_time, bool legacy_bid, bool bidder_acknowledged = false)
 		{
 			this.row_id = row_id;
+			this.auction_id = auction_id;
 			this.bidder_phone = bidder_phone;
 			this.value = value;
 			this.bid_time = bid_time;
 			this.legacy_bid = legacy_bid;
+			this.bidder_acknowledged = bidder_acknowledged;
 		}
 
 		//================[ Database ]================//
@@ -96,6 +104,11 @@ namespace FinalProject
 			get { return this.row_id; }
 		}
 
+		public long AuctionId
+		{
+			get { return this.auction_id; }
+		}
+
 		public int BidderPhone
         {
 			get { return this.bidder_phone; }
@@ -109,6 +122,11 @@ namespace FinalProject
 		public long BidTime
         {
 			get { return this.bid_time; }
+		}
+
+		public bool BidderAcknowledged
+		{
+			get { return this.bidder_acknowledged; }
 		}
 
 		// Price of outbidding |this| bid.
@@ -348,6 +366,7 @@ namespace FinalProject
                 while (reader.Read())
                 {
 					long bid_row_id = reader.GetInt32("id");
+					long auction_id = reader.GetInt32("auction_id");
 
 					int bidder_phone = 0;
 					if (!reader.IsDBNull(reader.GetOrdinal("bidder_phone")))
@@ -365,7 +384,7 @@ namespace FinalProject
 						this.bids = new List<Bid>();
 					}
 
-					this.bids.Add(new Bid(bid_row_id, bidder_phone, value, bid_time, legacy_bid));
+					this.bids.Add(new Bid(bid_row_id, auction_id, bidder_phone, value, bid_time, legacy_bid));
                 }
             }
 
@@ -535,7 +554,9 @@ namespace FinalProject
 			get { return this.buyer_phone; }
             set
             {
-                try
+				this.buyer_phone = value;
+
+				try
                 {
                     MySqlConnection db = Helper.DB.ConnectDatabase();
 
@@ -571,8 +592,10 @@ namespace FinalProject
 			get { return this.end_time; }
 			set
 			{
-                try
-                {
+				this.end_time = value;
+
+				try
+				{
                     MySqlConnection db = Helper.DB.ConnectDatabase();
 
                     MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.AUCTIONS_TBL_NAME}` SET `end_time` = {value} WHERE `id` = {row_id}", db);
@@ -615,8 +638,10 @@ namespace FinalProject
 			get { return this.status; }
             set
             {
-                try
-                {
+				this.status = value;
+
+				try
+				{
                     MySqlConnection db = Helper.DB.ConnectDatabase();
 
                     MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.AUCTIONS_TBL_NAME}` SET `status` = {(int)value} WHERE `id` = {row_id}", db);
@@ -636,6 +661,8 @@ namespace FinalProject
 			get { return this.owner_acknowledged; }
 			set
 			{
+				this.owner_acknowledged = value;
+
 				try
 				{
 					MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -657,6 +684,8 @@ namespace FinalProject
 			get { return this.buyer_acknowledged; }
 			set
 			{
+				this.buyer_acknowledged = value;
+
 				try
 				{
 					MySqlConnection db = Helper.DB.ConnectDatabase();
@@ -684,7 +713,7 @@ namespace FinalProject
 			get { return this.bids; }
 			set { this.bids = value; }
 		}
-
+		
 		public bool IsManage
 		{
 			get { return this.is_manage; }

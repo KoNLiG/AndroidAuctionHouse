@@ -78,6 +78,8 @@ namespace FinalProject
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
+
+
             // Test the database connection once on application start-up,
             // if it failed enter a safe mode where any app features that uses
             // database features are disabled.
@@ -294,7 +296,7 @@ namespace FinalProject
                     if (!reader.IsDBNull(reader.GetOrdinal("top_bid")))
                     {
                         List<Bid> top_bid_list = new List<Bid>();
-                        top_bid_list.Add(new Bid(0, 0, reader.GetInt32("top_bid"), 0, true));
+                        top_bid_list.Add(new Bid(0, id, 0, reader.GetInt32("top_bid"), 0, true));
 
                         auction.Bids = top_bid_list;
                     }

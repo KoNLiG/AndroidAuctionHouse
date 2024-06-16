@@ -23,7 +23,7 @@ namespace FinalProject
         public delegate void BaseOnBackPressed();
 
         private Context context;
-        
+
         public NavigationMenu(Context context)
         {
             this.context = context;
@@ -108,7 +108,7 @@ namespace FinalProject
                     OverrideItemsVisibility(item.SubMenu);
                     continue;
                 }
-                
+
                 string[] exploded_string = (item.TitleFormatted.ToString()).Split('|');
 
                 // Format the title by removing the visiblity value + |.
@@ -158,7 +158,7 @@ namespace FinalProject
                 tv_balance.Text = "";
                 return;
             }
-            
+
             Client runtime_client = RuntimeClient.Get();
             tv_name.Text = $"Hello {runtime_client.FirstName}!";
             tv_phone.Text = $"0{runtime_client.PhoneNumber}";
@@ -204,7 +204,7 @@ namespace FinalProject
             drawer.CloseDrawer(GravityCompat.Start);
             return true;
         }
-
+        
         public bool OnNavigationItemSelected(IMenuItem item)
         {
             AppCompatActivity app = ((AppCompatActivity)context);
@@ -241,7 +241,7 @@ namespace FinalProject
                 }
                 case Resource.Id.nav_managebids:
                 {
-                    // context.StartActivity(new Intent(context, typeof(ManageBidsActivity)));
+                    context.StartActivity(new Intent(context, typeof(ManageBidsActivity)));
 
                     break;
                 }
@@ -291,7 +291,7 @@ namespace FinalProject
                 case LoginActivity login:return Resource.Id.nav_login;
                 case ListAuctionActivity list_auction: return Resource.Id.nav_listauction;
                 case ManageAuctionsActivity manage_auctions: return Resource.Id.nav_manageauctions;
-                // case ManageBidsActivity manage_bids: return Resource.Id.nav_managebids;
+                case ManageBidsActivity manage_bids: return Resource.Id.nav_managebids;
                 case StatsActivity stats: return Resource.Id.nav_stats;
                 case AccountActivity account: return Resource.Id.nav_myaccount;
                 case AddFundsActivity addfunds: return Resource.Id.nav_addfunds;

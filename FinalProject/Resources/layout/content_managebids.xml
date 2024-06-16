@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/mainLayout"
+    android:paddingTop="32dp">
+    
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage Bids"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="48dp"/>
+    
+    <TextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View your recent auction bids, and claim rewards from expired auctions!\nBids of running auctions will always be on top."
+        android:textSize="15sp"
+        android:textColor="#8bb1bd"
+        android:textStyle="bold"
+        android:layout_below="@+id/textViewTitle"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="32dp"
+        android:layout_marginBottom="32dp"/>
+
+    <ListView
+        android:id="@+id/bidsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewInfo"/>
+
+</RelativeLayout>

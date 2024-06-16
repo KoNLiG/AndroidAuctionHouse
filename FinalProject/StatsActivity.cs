@@ -7,6 +7,7 @@ using Android.Support.V7.App;
 using Android.Text;
 using Android.Text.Style;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace FinalProject
 
         private ToggleButton switch_mode_button;
         private TextView stats_tv;
+
+        private Animation fade_in_animation;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -40,6 +43,8 @@ namespace FinalProject
             switch_mode_button.Click += Switch_mode_button_Click;
 
             stats_tv = FindViewById<TextView>(Resource.Id.statsTextView);
+
+            fade_in_animation = AnimationUtils.LoadAnimation(this, Resource.Animation.fade_in);
 
             PopulateStats();
         }
@@ -63,6 +68,8 @@ namespace FinalProject
             // otherwise buyer stats are displayed.
 
             Client runtime_client = RuntimeClient.Get();
+
+            stats_tv.StartAnimation(fade_in_animation);
 
             // Seller stats.
             if (switch_mode_button.Checked)

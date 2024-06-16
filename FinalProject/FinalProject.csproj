@@ -74,6 +74,7 @@
     <Compile Include="AuctionAdapter.cs" />
     <Compile Include="AuctionOverviewActivity.cs" />
     <Compile Include="BackgroundManager.cs" />
+    <Compile Include="ManageBidAdapter.cs" />
     <Compile Include="BidAdapter.cs" />
     <Compile Include="ChangePassword.cs" />
     <Compile Include="ClearableEditText.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="ManageAuctionsActivity.cs" />
+    <Compile Include="ManageBidsActivity.cs" />
     <Compile Include="NavigationMenu.cs" />
     <Compile Include="ParamValidation.cs" />
     <Compile Include="PhoneConfirmation.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="StaticImageAdapter.cs" />
     <Compile Include="StatsActivity.cs" />
     <Compile Include="TooltipEx.cs" />
+    <Compile Include="WIFIBroadcast.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -344,6 +347,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\raw\firework.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_managebids.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\content_managebids.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\anim\fade_in.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

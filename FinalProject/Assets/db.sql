@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `ah_bids` (
   `value` int(11) NOT NULL,
   `bid_time` bigint(20) NOT NULL,
   `legacy_bid` int(1) NOT NULL DEFAULT 0,
+  `bidder_acknowledged` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`auction_id`) REFERENCES `ah_auctions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   FOREIGN KEY (`bidder_phone`) REFERENCES `ah_clients` (`phone`) ON DELETE SET NULL ON UPDATE CASCADE

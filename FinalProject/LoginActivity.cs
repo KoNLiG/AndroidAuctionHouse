@@ -176,7 +176,7 @@ namespace FinalProject
         {
             HideEditTextContents(editTextPassword, !toggleButtonHidePassword.Checked);
         }
-
+        
         public static void HideEditTextContents(EditText et, bool val)
         {
             et.InputType = val ? (Android.Text.InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText) : Android.Text.InputTypes.ClassText;
