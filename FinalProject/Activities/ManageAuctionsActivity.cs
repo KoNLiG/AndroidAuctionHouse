@@ -50,6 +50,15 @@ namespace FinalProject
             base.OnResume();
 
             FetchAuctions();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
         }
 
         // Called once the user has triggered the "back" operation by left swiping, etc..

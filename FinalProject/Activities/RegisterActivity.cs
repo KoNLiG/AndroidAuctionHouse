@@ -99,6 +99,20 @@ namespace FinalProject
             navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
+        }
+
         private void ToggleButtonHidePassword_Click(object sender, System.EventArgs e)
         {
             HideEditTextContents(fields[FIELD_PASSWORD], !toggleButtonHidePassword.Checked);

@@ -42,4 +42,12 @@
         android:layout_marginLeft="32dp"
         android:text="tvBalance"/>
 
+    <TextView
+        android:id="@+id/tvBattery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="tvBattery"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

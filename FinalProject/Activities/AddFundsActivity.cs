@@ -80,6 +80,20 @@ namespace FinalProject
             navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
+        }
+
         private void CardNumber_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
             card_number_layout.EditText.TextChanged -= CardNumber_TextChanged;

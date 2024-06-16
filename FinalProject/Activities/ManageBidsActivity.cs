@@ -47,6 +47,20 @@ namespace FinalProject
             navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
+        }
+
         private void Bids_list_view_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             ManageBidAdapter adapter = (ManageBidAdapter)bids_list_view.Adapter;

@@ -10,17 +10,15 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Xamarin.Essentials;
 
 namespace FinalProject
 {
     [BroadcastReceiver]
     class WIFIBroadcast : BroadcastReceiver
     {
-        Activity activity;
-
-        public WIFIBroadcast(Activity activity)
+        public WIFIBroadcast()
         {
-            this.activity = activity;
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -40,7 +38,9 @@ namespace FinalProject
             // Evacuate to the main activity.
             if (wifiInfo.IpAddress == 0)
             {
-                activity.StartActivity(new Intent(activity, typeof(MainActivity)));
+                Activity a = Platform.CurrentActivity;
+                
+                a.StartActivity(new Intent(a, typeof(MainActivity)));
             }
         }
     }

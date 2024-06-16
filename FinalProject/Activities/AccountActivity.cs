@@ -85,6 +85,20 @@ namespace FinalProject
             navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
+        }
+
         private void Field_AfterTextChanged(object sender, Android.Text.AfterTextChangedEventArgs e)
         {
             bool should_be_enabled = (first_name_et.Text != first_name_et.Hint) || (last_name_et.Text != last_name_et.Hint) || (phone_et.Text != phone_et.Hint);

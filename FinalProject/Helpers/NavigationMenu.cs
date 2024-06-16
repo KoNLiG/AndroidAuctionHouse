@@ -24,6 +24,10 @@ namespace FinalProject
 
         private Context context;
 
+        // Used for displaying the phone's battery
+        // percetage at the navigation menu header.
+        private BatteryBroadcast battery_broadcast;
+
         public NavigationMenu(Context context)
         {
             this.context = context;
@@ -52,6 +56,19 @@ namespace FinalProject
             this.OverrideItemsVisibility(navigationView.Menu);
             this.SetLogoutColor(navigationView);
             this.SetTitles();
+        }
+        D
+        // Should be called in every OnResume() of activity.
+        public void CreateBatteryBroadcast()
+        {
+            battery_broadcast = new BatteryBroadcast(GetBatteryView());
+            context.RegisterReceiver(battery_broadcast, new IntentFilter(Intent.ActionBatteryChanged));
+        }
+
+        // Should be called in every OnPause() of activity.
+        public void DestroyBatteryBroadcast()
+        {
+            context.UnregisterReceiver(battery_broadcast);
         }
 
         public NavigationView GetNavigationView()
@@ -85,6 +102,13 @@ namespace FinalProject
             // It's safe to assume '0' is a valid index since
             // there is a static xml header compiled into the nav view.
             return GetNavigationView().GetHeaderView(0).FindViewById<TextView>(Resource.Id.tvBalance);
+        }
+
+        public TextView GetBatteryView()
+        {
+            // It's safe to assume '0' is a valid index since
+            // there is a static xml header compiled into the nav view.
+            return GetNavigationView().GetHeaderView(0).FindViewById<TextView>(Resource.Id.tvBattery);
         }
 
         /* 
@@ -320,7 +344,7 @@ namespace FinalProject
 
             AppCompatActivity app = ((AppCompatActivity)context);
             NavigationView navigationView = GetNavigationView();
-
+            
             int item_id = ItemIdFromActivity(app);
             if (item_id != 0)
             {

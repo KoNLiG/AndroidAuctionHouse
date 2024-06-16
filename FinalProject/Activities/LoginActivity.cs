@@ -117,6 +117,27 @@ namespace FinalProject
             }
         }
 
+        // Called once the user has triggered the "back" operation by left swiping, etc..
+        // If the navigation menu is open, override the action and close it first.
+        public override void OnBackPressed()
+        {
+            navigation_menu.OnBackPressed(base.OnBackPressed);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
+        }
+
         // Called when either the phone field or the password field has been edited.
         private void Field_AfterTextChanged(object sender, Android.Text.AfterTextChangedEventArgs e)
         {
@@ -125,13 +146,6 @@ namespace FinalProject
             {
                 Helper.SetButtonState(this, buttonLogIn, should_be_enabled);
             }
-        }
-
-        // Called once the user has triggered the "back" operation by left swiping, etc..
-        // If the navigation menu is open, override the action and close it first.
-        public override void OnBackPressed()
-        {
-            navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
         private void TextViewForgotPassword_Click(object sender, EventArgs e)

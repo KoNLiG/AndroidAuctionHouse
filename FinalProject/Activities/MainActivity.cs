@@ -73,12 +73,12 @@ namespace FinalProject
         private TextInputEditText search_edit_text;
         private ListView auctions_list_view;
 
+        private WIFIBroadcast wifi_broadcast;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-
-
 
             // Test the database connection once on application start-up,
             // if it failed enter a safe mode where any app features that uses
@@ -96,6 +96,10 @@ namespace FinalProject
                 SetContentView(Resource.Layout.activity_main_nodb);
                 return;
             }
+
+            // Setup the wifi broadcast.
+            wifi_broadcast = new WIFIBroadcast();
+            RegisterReceiver(wifi_broadcast, new IntentFilter("android.net.wifi.STATE_CHANGE"));
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
@@ -164,6 +168,15 @@ namespace FinalProject
             base.OnResume();
 
             FetchAuctions();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
         }
 
         // Called once the user has triggered the "back" operation by left swiping, etc..
@@ -264,7 +277,15 @@ namespace FinalProject
         // (according to the given filters by the user)
         private void FetchAuctions()
         {
-            MySqlConnection db = Helper.DB.ConnectDatabase();
+            MySqlConnection db;
+            try
+            {
+                db = Helper.DB.ConnectDatabase();
+            }
+            catch
+            {
+                return;
+            }
 
             MySqlCommand cmd = new MySqlCommand(BuildAuctionsFetchQuery(), db);
 

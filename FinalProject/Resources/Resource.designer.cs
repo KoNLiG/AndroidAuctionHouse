@@ -7444,67 +7444,70 @@ namespace FinalProject
 			public const int tvBalance = 2131231230;
 			
 			// aapt resource value: 0x7F0801FF
-			public const int tvConfirmPasswordError = 2131231231;
+			public const int tvBattery = 2131231231;
 			
 			// aapt resource value: 0x7F080200
-			public const int tvName = 2131231232;
+			public const int tvConfirmPasswordError = 2131231232;
 			
 			// aapt resource value: 0x7F080201
-			public const int tvPasswordError = 2131231233;
+			public const int tvName = 2131231233;
 			
 			// aapt resource value: 0x7F080202
-			public const int tvPhone = 2131231234;
+			public const int tvPasswordError = 2131231234;
 			
 			// aapt resource value: 0x7F080203
-			public const int @unchecked = 2131231235;
+			public const int tvPhone = 2131231235;
 			
 			// aapt resource value: 0x7F080204
-			public const int uniform = 2131231236;
+			public const int @unchecked = 2131231236;
 			
 			// aapt resource value: 0x7F080205
-			public const int unlabeled = 2131231237;
+			public const int uniform = 2131231237;
 			
 			// aapt resource value: 0x7F080206
-			public const int up = 2131231238;
+			public const int unlabeled = 2131231238;
 			
 			// aapt resource value: 0x7F080207
-			public const int useLogo = 2131231239;
+			public const int up = 2131231239;
 			
 			// aapt resource value: 0x7F080208
-			public const int valueLayout = 2131231240;
+			public const int useLogo = 2131231240;
 			
 			// aapt resource value: 0x7F080209
-			public const int view_offset_helper = 2131231241;
+			public const int valueLayout = 2131231241;
 			
 			// aapt resource value: 0x7F08020A
-			public const int view_tree_lifecycle_owner = 2131231242;
+			public const int view_offset_helper = 2131231242;
 			
 			// aapt resource value: 0x7F08020B
-			public const int view_tree_saved_state_registry_owner = 2131231243;
+			public const int view_tree_lifecycle_owner = 2131231243;
 			
 			// aapt resource value: 0x7F08020C
-			public const int view_tree_view_model_store_owner = 2131231244;
+			public const int view_tree_saved_state_registry_owner = 2131231244;
 			
 			// aapt resource value: 0x7F08020D
-			public const int visible = 2131231245;
+			public const int view_tree_view_model_store_owner = 2131231245;
 			
 			// aapt resource value: 0x7F08020E
-			public const int visible_removing_fragment_view_tag = 2131231246;
-			
-			// aapt resource value: 0x7F080210
-			public const int withinBounds = 2131231248;
+			public const int visible = 2131231246;
 			
 			// aapt resource value: 0x7F08020F
-			public const int withText = 2131231247;
+			public const int visible_removing_fragment_view_tag = 2131231247;
 			
 			// aapt resource value: 0x7F080211
-			public const int wrap = 2131231249;
+			public const int withinBounds = 2131231249;
+			
+			// aapt resource value: 0x7F080210
+			public const int withText = 2131231248;
 			
 			// aapt resource value: 0x7F080212
-			public const int wrap_content = 2131231250;
+			public const int wrap = 2131231250;
 			
 			// aapt resource value: 0x7F080213
-			public const int zero_corner_chip = 2131231251;
+			public const int wrap_content = 2131231251;
+			
+			// aapt resource value: 0x7F080214
+			public const int zero_corner_chip = 2131231252;
 			
 			static Id()
 			{

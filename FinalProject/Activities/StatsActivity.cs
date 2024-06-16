@@ -56,6 +56,20 @@ namespace FinalProject
             navigation_menu.OnBackPressed(base.OnBackPressed);
         }
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            navigation_menu.CreateBatteryBroadcast();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            navigation_menu.DestroyBatteryBroadcast();
+        }
+
         private void Switch_mode_button_Click(object sender, EventArgs e)
         {
             PopulateStats();
