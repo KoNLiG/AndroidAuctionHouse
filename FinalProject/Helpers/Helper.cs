@@ -45,7 +45,7 @@ namespace FinalProject
                 public static string Password { get; } = "!OY@e.x!9SY08aiHFLvU3BvM";
                 public static uint Port { get; } = 3306;
             }
-            
+
             private static string BuildConnectionString()
             {
                 var builder = new MySqlConnectionStringBuilder

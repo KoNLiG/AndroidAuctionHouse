@@ -57,7 +57,7 @@ namespace FinalProject
             this.SetLogoutColor(navigationView);
             this.SetTitles();
         }
-        D
+        
         // Should be called in every OnResume() of activity.
         public void CreateBatteryBroadcast()
         {
