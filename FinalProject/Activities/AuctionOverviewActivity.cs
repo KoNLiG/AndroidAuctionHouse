@@ -229,7 +229,7 @@ namespace FinalProject
 
                 DateTimeOffset dt_offset = DateTimeOffset.FromUnixTimeSeconds(auction.EndTime);
                 countdown_title_tv.Text = $"Ended at: {dt_offset.ToString("dd/MM/yyy - HH:mm:ss")}";
-
+                
                 // Display the buyer contact info. IF BIN
                 if (auction.Type == AuctionType.BIN)
                 {
