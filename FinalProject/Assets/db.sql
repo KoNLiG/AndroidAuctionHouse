@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `ah_clients` (
   `first_name` varchar(64) NOT NULL,
   `last_name` varchar(64) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `coins` int(11) DEFAULT 500,
+  `coins` int(11) DEFAULT ?DEFAULT_COINS,
   PRIMARY KEY (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

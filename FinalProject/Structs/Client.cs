@@ -302,7 +302,7 @@ namespace FinalProject
             }
         }
 
-        public static readonly int DEFAULT_COINS = 100;
+        public static readonly int DEFAULT_COINS = 250;
 
         // First 9 digits of the phone number. (excluding the 0 prefix)
         private int phone_number;
