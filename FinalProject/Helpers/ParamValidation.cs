@@ -108,9 +108,16 @@ namespace FinalProject
                 return "Please select an amount";
             }
 
-            if (AddFundsActivity.GetFundValue(amount) == -1)
+            int fund_value = AddFundsActivity.GetFundValue(amount);
+            if (fund_value == -1)
             {
                 return "Invalid amount has been selected";
+            }
+
+            // Cannot add negative.
+            if (fund_value <= 0)
+            {
+                return "Cannot input negative amount";
             }
 
             return "";
