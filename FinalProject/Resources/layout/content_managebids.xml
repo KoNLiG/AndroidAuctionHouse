@@ -23,7 +23,7 @@
         android:id="@+id/textViewInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View your recent auction bids, and claim rewards from expired auctions!\nBids of running auctions will always be on top."
+        android:text="View your recent auction bids, and claim rewards from expired auctions!\nLong click a bid to copy its auction name."
         android:textSize="15sp"
         android:textColor="#8bb1bd"
         android:textStyle="bold"

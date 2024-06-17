@@ -42,6 +42,7 @@ namespace FinalProject
 
             bids_list_view = FindViewById<ListView>(Resource.Id.bidsListView);
             bids_list_view.ItemClick += Bids_list_view_ItemClick;
+            bids_list_view.ItemLongClick += Bids_list_view_ItemLongClick;
 
             FetchBids();
         }
@@ -116,6 +117,27 @@ namespace FinalProject
                 intent.PutExtra("auction_id", auction.RowId);
                 StartActivity(intent);
             }
+        }
+
+        // Used to copy an auction name to clipboard.
+        private void Bids_list_view_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
+        {
+            ManageBidAdapter adapter = (ManageBidAdapter)bids_list_view.Adapter;
+
+            Bid bid = adapter[e.Position];
+
+            Auction auction = new Auction(bid.AuctionId);
+            if (auction.RowId == 0)
+            {
+                return;
+            }
+
+            ClipboardManager clipboard = (ClipboardManager)GetSystemService(ClipboardService);
+            clipboard.Text = auction.ItemName;
+
+            Snackbar snackbar = Snackbar.Make(main_layout, $"Copied '{auction.ItemName}' to clipboard", Snackbar.LengthLong);
+            snackbar.SetTextColor(new Color(144, 238, 144));
+            snackbar.Show();
         }
 
         // Loads all bids.

@@ -142,6 +142,13 @@ namespace FinalProject
             FetchAuctions();
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            UnregisterReceiver(wifi_broadcast);
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -168,14 +175,20 @@ namespace FinalProject
 
             FetchAuctions();
 
-            navigation_menu.CreateBatteryBroadcast();
+            if (navigation_menu != null)
+            {
+                navigation_menu.CreateBatteryBroadcast();
+            }
         }
 
         protected override void OnPause()
         {
             base.OnPause();
 
-            navigation_menu.DestroyBatteryBroadcast();
+            if (navigation_menu != null)
+            {
+                navigation_menu.DestroyBatteryBroadcast();
+            }
         }
 
         // Called once the user has triggered the "back" operation by left swiping, etc..
