@@ -1,11 +1,13 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Com.Tomergoldst.Tooltips;
+using Google.Android.Material.Snackbar;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,8 @@ namespace FinalProject
     {
         private NavigationMenu navigation_menu;
 
+        private RelativeLayout main_layout;
+
         private ListView bids_list_view;
         
         protected override void OnCreate(Bundle savedInstanceState)
@@ -31,6 +35,8 @@ namespace FinalProject
             Title = "Manage Bids";
             new BackgroundManager(this);
             navigation_menu = new NavigationMenu(this);
+
+            main_layout = FindViewById<RelativeLayout>(Resource.Id.mainLayout);
 
             FindViewById<TextView>(Resource.Id.textViewTitle).PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
 
@@ -51,6 +57,8 @@ namespace FinalProject
         {
             base.OnResume();
 
+            FetchBids();
+
             navigation_menu.CreateBatteryBroadcast();
         }
 
@@ -65,9 +73,49 @@ namespace FinalProject
         {
             ManageBidAdapter adapter = (ManageBidAdapter)bids_list_view.Adapter;
 
-            Intent intent = new Intent(this, typeof(AuctionOverviewActivity));
-            intent.PutExtra("auction_id", adapter[e.Position].AuctionId);
-            StartActivity(intent);
+            Bid bid = adapter[e.Position];
+
+            Auction auction = new Auction(bid.AuctionId);
+            if (auction.RowId == 0)
+            {
+                return;
+            }
+
+            // Client did bid but they weren't top bid, 
+            // therefore they deserve their coins back.
+            if (auction.Status != AuctionStatus.Running && auction.FindTopBid().RowId != bid.RowId)
+            {
+                if (!bid.BidderAcknowledged)
+                {
+                    Client runtime_client = RuntimeClient.Get();
+                    if (runtime_client != null)
+                    {
+                        runtime_client.Coins += bid.Value;
+                    }
+                    
+                    bid.BidderAcknowledged = true;
+
+                    Snackbar snackbar = Snackbar.Make(main_layout, $"Someone outbidded you, you received {bid.Value.ToString("N0")} coins back!", Snackbar.LengthLong);
+                    snackbar.SetTextColor(new Color(144, 238, 144));
+                    snackbar.Show();
+
+                    // Refresh the view.
+                    FetchBids();
+                }
+                else
+                {
+                    Snackbar snackbar = Snackbar.Make(main_layout, $"This bid is already claimed", Snackbar.LengthLong);
+                    snackbar.SetTextColor(new Color(218, 55, 60));
+                    snackbar.Show();
+                }
+            }
+            // Whether the auction is running 
+            else
+            {
+                Intent intent = new Intent(this, typeof(AuctionOverviewActivity));
+                intent.PutExtra("auction_id", auction.RowId);
+                StartActivity(intent);
+            }
         }
 
         // Loads all bids.

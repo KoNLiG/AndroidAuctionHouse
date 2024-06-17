@@ -257,12 +257,16 @@ namespace FinalProject
                     drawer.OpenDrawer(GravityCompat.Start);
                 }
 
-                Helper.FireInputError(this, (ViewGroup)(navigation_menu.GetHeader()), navigation_menu.GetBalanceView(), $"Added {value.ToString("N0")} coins!");
-
                 // Reapply the button hook.
                 button.Click += Add_button_Click;
 
                 processing_request = false;
+
+                // Slightly delay the tooltip message, for a better visual understanding.
+                button.PostDelayed(() => {
+                    Helper.FireInputError(this, (ViewGroup)(navigation_menu.GetHeader()), navigation_menu.GetBalanceView(), $"Added {value.ToString("N0")} coins!");
+                }, 500);
+
             }, 2300); // 2300ms for the animation duration. (see the layout)
         }
 

@@ -127,6 +127,24 @@ namespace FinalProject
 		public bool BidderAcknowledged
 		{
 			get { return this.bidder_acknowledged; }
+			set
+			{
+				this.bidder_acknowledged = value;
+
+				try
+				{
+					MySqlConnection db = Helper.DB.ConnectDatabase();
+
+					MySqlCommand cmd = new MySqlCommand($"UPDATE `{Helper.DB.BIDS_TBL_NAME}` SET `bidder_acknowledged` = {value} WHERE `id` = {row_id}", db);
+					cmd.ExecuteNonQuery();
+
+					db.Close();
+				}
+				catch
+				{
+					// silent error.
+				}
+			}
 		}
 
 		// Price of outbidding |this| bid.

@@ -278,12 +278,12 @@ namespace FinalProject
                         function_button = null;
                     }
                 }
-
+                
                 // If we're the buyer, only display the relevant data TO US.
                 if (auction.BuyerPhone == runtime_client.PhoneNumber)
                 {
                     List<Bid> bids = new List<Bid>();
-                    bids.Add(auction.Bids[0]);
+                    bids.Add(auction.FindTopBid());
                     bids_list_view.Adapter = new BidAdapter(this, bids);
                 }
             }
@@ -495,10 +495,12 @@ namespace FinalProject
             Bid top_bid = auction.FindTopBid();
             if (top_bid != null)
             {
+                bid_layout.EditText.Text = top_bid.OutBid.ToString();
                 bid_layout.HelperText = $"* Minimum value for outbidding is {top_bid.OutBid.ToString("N0")} coins";
             }
             else
             {
+                bid_layout.EditText.Text = auction.Value.ToString();
                 bid_layout.HelperText = $"* Starting bid is {auction.Value.ToString("N0")} coins";
             }
 
@@ -735,6 +737,13 @@ namespace FinalProject
             else if (auction.BuyerPhone == runtime_client.PhoneNumber && !auction.BuyerAcknowledged)
             {
                 auction.BuyerAcknowledged = true;
+
+                // Change bid "acknowledged".
+                Bid top_bid = auction.FindTopBid();
+                if (top_bid != null && top_bid.BidderPhone == runtime_client.PhoneNumber && !top_bid.BidderAcknowledged)
+                {
+                    top_bid.BidderAcknowledged = true;
+                }
             }
 
             // Evacuate the client to the manage auctions page.

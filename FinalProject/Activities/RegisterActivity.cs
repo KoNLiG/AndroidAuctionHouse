@@ -173,7 +173,9 @@ namespace FinalProject
 
                 // New client has been successfully inserted into the database.
                 // Send the client to the login page.
-                StartActivity(new Intent(this, typeof(LoginActivity)));
+                Intent intent = new Intent(this, typeof(LoginActivity));
+                intent.PutExtra("phone", new_client.PhoneNumber);
+                StartActivity(intent);
                 FinishAffinity();
             }
             // Someone else already registered with the specified 

@@ -89,7 +89,6 @@ namespace FinalProject
             }
             catch (MySqlException ex)
             {
-
 #if DEBUG
                 Console.WriteLine(ex);
 #endif
