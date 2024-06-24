@@ -28,21 +28,12 @@ namespace FinalProject
             public static string IMAGES_TBL_NAME = "ah_images";
             public static string STATS_TBL_NAME = "ah_stats";
 
-            /*public static class Connection
-            {
-                public static string Host { get; } = "geekgrove.co.il";
-                public static string Database { get; } = "konlig";
-                public static string User { get; } = "konlig";
-                public static string Password { get; } = "xBA3XhxQbx52";
-                public static uint Port { get; } = 3306;
-            }*/
-
             public static class Connection
             {
-                public static string Host { get; } = "191.96.229.55";
-                public static string Database { get; } = "s89_ts3server";
-                public static string User { get; } = "u89_lHJmI3zLqH";
-                public static string Password { get; } = "!OY@e.x!9SY08aiHFLvU3BvM";
+                public static string Host { get; } = "";
+                public static string Database { get; } = "";
+                public static string User { get; } = "";
+                public static string Password { get; } = "";
                 public static uint Port { get; } = 3306;
             }
 
